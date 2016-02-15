@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickRegister(View v) {
+        Toast.makeText(MainActivity.this, "Well it got here", Toast.LENGTH_SHORT).show();
+        setContentView(R.layout.registration_screen);
         registerUsername = (EditText) findViewById(R.id.userRegisterUsername);
         registerPassword = (EditText) findViewById(R.id.userRegisterPassword);
         registerFirstName = (EditText) findViewById(R.id.userRegisterFirstName);
@@ -64,19 +66,15 @@ public class MainActivity extends AppCompatActivity {
         Set usernames = user_holder.keySet();
         boolean isUsernameTaken = usernames.contains(registerUsername.getText().toString());
 
-        if (usernames.size() == 0 || !isUsernameTaken) {
-            //create user
-            User newUser = new User(registerUsername.getText().toString(),
-                    registerPassword.getText().toString(), registerFirstName.getText().toString(),
-                    registerLastName.getText().toString());
-            setContentView(R.layout.content_main);
-        } else {
-            Toast.makeText(MainActivity.this, "Username Taken", Toast.LENGTH_SHORT).show();
-        }
-
-
-
-
+//        if (usernames.size() == 0 || !isUsernameTaken) {
+//            //create user
+//            User newUser = new User(registerUsername.getText().toString(),
+//                    registerPassword.getText().toString(), registerFirstName.getText().toString(),
+//                    registerLastName.getText().toString());
+//            setContentView(R.layout.main_post_sign_in);
+//        } else {
+//            Toast.makeText(MainActivity.this, "Username Taken", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     public void sign_in_back_click(View v) {
