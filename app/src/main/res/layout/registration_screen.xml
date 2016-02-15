@@ -1,0 +1,129 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainScreen">
+
+    <TextView
+        android:text="@string/app_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold|italic"
+        android:textSize="32dp"
+        android:textColor="#000000"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/userRegisterFirstName"
+        android:layout_alignTop="@+id/editText4"
+        android:layout_toRightOf="@+id/editText3"
+        android:layout_toEndOf="@+id/editText3" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/userRegisterLastName"
+        android:layout_alignTop="@+id/editText3"
+        android:layout_toRightOf="@+id/editText3"
+        android:layout_toEndOf="@+id/editText3" />
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/userRegisterUsername"
+        android:layout_alignTop="@+id/registerUsername"
+        android:layout_toRightOf="@+id/registerUsername"
+        android:layout_toEndOf="@+id/registerUsername" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/userRegisterPassword"
+        android:layout_alignTop="@+id/registerPassword"
+        android:layout_toRightOf="@+id/registerPassword"
+        android:layout_toEndOf="@+id/registerPassword" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText3"
+        android:text="Last Name:"
+        android:textStyle="bold"
+        android:layout_below="@+id/userRegisterFirstName"
+        android:layout_alignRight="@+id/editText4"
+        android:layout_alignEnd="@+id/editText4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText4"
+        android:text="First Name:"
+        android:textStyle="bold"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Register"
+        android:id="@+id/RegisterButton"
+        android:onClick="onClickRegister"
+        android:layout_below="@+id/userRegisterPassword"
+        android:layout_alignRight="@+id/userRegisterPassword"
+        android:layout_alignEnd="@+id/userRegisterPassword"
+        android:layout_marginTop="48dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Cancel"
+        android:id="@+id/RegisterCancelButton"
+        android:onClick="onClickCancelRegister"
+        android:layout_alignTop="@+id/RegisterButton"
+        android:layout_alignLeft="@+id/userRegisterPassword"
+        android:layout_alignStart="@+id/userRegisterPassword" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerUsername"
+        android:text="Username:"
+        android:textStyle="bold"
+        android:layout_below="@+id/userRegisterLastName"
+        android:layout_alignRight="@+id/editText4"
+        android:layout_alignEnd="@+id/editText4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerPassword"
+        android:text="Password:"
+        android:textStyle="bold"
+        android:layout_below="@+id/userRegisterUsername"
+        android:layout_alignRight="@+id/editText4"
+        android:layout_alignEnd="@+id/editText4" />
+
+
+</RelativeLayout>
