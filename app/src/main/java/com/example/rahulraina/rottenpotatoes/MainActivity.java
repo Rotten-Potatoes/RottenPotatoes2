@@ -9,10 +9,24 @@ import android.widget.Toast;
 
 import com.example.rahulraina.rottenpotatoes.R;
 
+import java.util.HashMap;
+import java.util.Set;
+
 public class MainActivity extends AppCompatActivity {
+    //Variables for Login Screen
     private EditText username;
     private EditText password;
     private TextView profile_button;
+
+    //Variables for Registration Screen
+    private EditText registerUsername;
+    private EditText registerPassword;
+    private EditText registerFirstName;
+    private EditText registerLastName;
+
+    //HashMap indexed by username
+    HashMap<String, User> user_holder = new HashMap<>();
+
 
 
     @Override
@@ -41,6 +55,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onClickRegister(View v) {
+        registerUsername = (EditText) findViewById(R.id.userRegisterUsername);
+        registerPassword = (EditText) findViewById(R.id.userRegisterPassword);
+        registerFirstName = (EditText) findViewById(R.id.userRegisterFirstName);
+        registerLastName = (EditText) findViewById(R.id.userRegisterLastName);
+
+        Set usernames = user_holder.keySet();
+        boolean isUsernameTaken = usernames.contains(registerUsername.getText().toString());
+
+        if (usernames.size() == 0 || !isUsernameTaken) {
+            //create user
+            User newUser = new User(registerUsername.getText().toString(),
+                    registerPassword.getText().toString(), registerFirstName.getText().toString(),
+                    registerLastName.getText().toString());
+            setContentView(R.layout.content_main);
+        } else {
+            Toast.makeText(MainActivity.this, "Username Taken", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+    }
+
+    public void sign_in_back_click(View v) {
+        setContentView(R.layout.activity_main_screen);
+    }
+
     public void onClickSignOut(View v) {
         username.setText("");
         password.setText("");
@@ -61,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.edit_profile);
     }
 
+    public void onClickCancelRegister(View v) {
+        registerUsername.setText("");
+        registerLastName.setText("");
+        registerFirstName.setText("");
+        registerPassword.setText("");
 
-
+        setContentView(R.layout.activity_main_screen);
+    }
 }
