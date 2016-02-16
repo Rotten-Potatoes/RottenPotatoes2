@@ -1,6 +1,172 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainScreen">
 
-</LinearLayout>
+    <TextView
+        android:text="@string/app_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold|italic"
+        android:textSize="32dp"
+        android:textColor="#000000"
+        android:id="@+id/profileUser"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lastNameProfileTag"
+        android:text="Last Name:"
+        android:textStyle="bold"
+        android:layout_below="@+id/userEditFirstName"
+        android:layout_alignRight="@+id/firstNameProfileTag"
+        android:layout_alignEnd="@+id/firstNameProfileTag" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/userEditLastName"
+        android:layout_alignTop="@+id/lastNameProfileTag"
+        android:layout_toRightOf="@+id/lastNameProfileTag"
+        android:layout_toEndOf="@+id/lastNameProfileTag" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/firstNameProfileTag"
+        android:text="First Name:"
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="45dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/userEditFirstName"
+        android:layout_alignTop="@+id/firstNameProfileTag"
+        android:layout_toRightOf="@+id/lastNameProfileTag"
+        android:layout_toEndOf="@+id/lastNameProfileTag" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editUsernameTag"
+        android:text="Username:"
+        android:textStyle="bold"
+        android:layout_below="@+id/userEditLastName"
+        android:layout_alignRight="@+id/firstNameProfileTag"
+        android:layout_alignEnd="@+id/firstNameProfileTag" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/userEditUsername"
+        android:layout_alignTop="@+id/editUsernameTag"
+        android:layout_toRightOf="@+id/editUsernameTag"
+        android:layout_toEndOf="@+id/editUsernameTag" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editPasswordTag"
+        android:text="Password:"
+        android:textStyle="bold"
+        android:layout_below="@+id/userEditUsername"
+        android:layout_alignRight="@+id/firstNameProfileTag"
+        android:layout_alignEnd="@+id/firstNameProfileTag" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/userEditPassword"
+        android:layout_alignTop="@+id/editPasswordTag"
+        android:layout_toRightOf="@+id/editPasswordTag"
+        android:layout_toEndOf="@+id/editPasswordTag" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editMajorTag"
+        android:text="Major:"
+        android:textStyle="bold"
+        android:layout_below="@+id/userEditPassword"
+        android:layout_alignRight="@+id/firstNameProfileTag"
+        android:layout_alignEnd="@+id/firstNameProfileTag" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/userEditMajor"
+        android:layout_alignTop="@+id/editMajorTag"
+        android:layout_toRightOf="@+id/editMajorTag"
+        android:layout_toEndOf="@+id/editMajorTag" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editMajorTag"
+        android:text="Major:"
+        android:textStyle="bold"
+        android:layout_below="@+id/userEditPassword"
+        android:layout_alignRight="@+id/firstNameProfileTag"
+        android:layout_alignEnd="@+id/firstNameProfileTag" />
+
+
+    <EditText
+        android:inputType="textMultiLine"
+        android:id="@+id/userEditInterests"
+        android:lines="8"
+        android:minLines="6"
+        android:maxLines="10"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:scrollbars="vertical"
+        android:layout_below="@+id/userEditMajor"
+        android:layout_alignRight="@+id/userEditMajor"
+        android:layout_alignEnd="@+id/userEditMajor"
+        android:layout_alignLeft="@+id/userEditPassword"
+        android:layout_marginLeft="70dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Update Profile"
+        android:id="@+id/Update"
+        android:onClick="onClickUpdateProfile"
+        android:layout_below="@+id/userEditInterests"
+        android:layout_alignLeft="@+id/userEditPassword"
+        android:layout_alignStart="@+id/userEditPassword"
+        android:layout_marginTop="48dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Cancel"
+        android:id="@+id/EditCancelButton"
+        android:onClick="onClickCancelEdit"
+        android:layout_alignTop="@+id/Update"
+        android:layout_alignRight="@+id/userEditPassword"
+        android:layout_alignEnd="@+id/userEditPassword" />
+
+
+</RelativeLayout>
