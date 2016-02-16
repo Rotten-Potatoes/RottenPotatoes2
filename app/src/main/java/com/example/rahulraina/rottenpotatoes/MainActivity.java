@@ -28,17 +28,35 @@ public class MainActivity extends AppCompatActivity {
     HashMap<String, User> user_holder = new HashMap<>();
 
 
-
+    /**
+     * Starts the application and the cycle. First method to execute
+     * so sets the view on start to the main screen
+     *
+     * @param  savedInstanceState the current state of the client
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
     }
 
+    /**
+     * Transitions to the sign in screen view to allow
+     * user to enter information there for login
+     *
+     * @param  v The view passed in which is used
+     */
     public void onClickSignIn(View v) {
         setContentView(R.layout.sign_in_screen);
     }
 
+    /**
+     * Obtains user's user and pass and checks some source
+     * (could be db, hardcoded values, or a local map)
+     * to log user in or alert incorrect login
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickLogin(View v) {
         username = (EditText) findViewById(R.id.editText);
         password = (EditText) findViewById(R.id.editText2);
@@ -55,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Allows user to register so the system can make a profile for them
+     * We check for duplicate users in the map (O(1) lookup) and save
+     * that information.
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickRegister(View v) {
         Toast.makeText(MainActivity.this, "Well it got here", Toast.LENGTH_SHORT).show();
         setContentView(R.layout.registration_screen);
@@ -76,31 +101,65 @@ public class MainActivity extends AppCompatActivity {
 //            Toast.makeText(MainActivity.this, "Username Taken", Toast.LENGTH_SHORT).show();
 //        }
     }
-
+    /**
+     * Allows user to sign back in after logout by taking him back
+     * to the main screen.
+     *
+     * @param  v The view passed in that is used
+     */
     public void sign_in_back_click(View v) {
         setContentView(R.layout.activity_main_screen);
     }
 
+    /**
+     * Signs user out and for now, simply empties the user and pass
+     * fields and resets the view to the main screen.
+     * Stability and usage of sessions are not currently
+     * implemented.
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickSignOut(View v) {
         username.setText("");
         password.setText("");
         setContentView(R.layout.activity_main_screen);
     }
 
+    /**
+     * Placeholder which will eventually display the friends a user has
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickFriends(View v) {
         //Temporary action
         Toast.makeText(MainActivity.this, "You don't have any friends yet!", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Placeholder which will eventually display the groups which a user is in
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickGroups(View v) {
         //Temporary action
         Toast.makeText(MainActivity.this, "You're not in any groups yet!", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Sets view to edit profile if user requests it.
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickProfile(View v) {
         setContentView(R.layout.edit_profile);
     }
 
+    /**
+     * Cancels registration and clears the input fields
+     * if user cancels action.
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickCancelRegister(View v) {
         registerUsername.setText("");
         registerLastName.setText("");
