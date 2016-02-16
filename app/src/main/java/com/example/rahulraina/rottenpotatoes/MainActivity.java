@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private User currentUser;
 
-    // Lets us know if we have to clear the Login screen password
+    // Lets us know if we have to clear the Login screen password upon sign out
     private boolean cameFromLogin = false;
 
     // Variables for Edit Profile Screen
@@ -40,20 +40,33 @@ public class MainActivity extends AppCompatActivity {
     private EditText editMajor;
     private EditText editInterests;
 
+    /**
+     * Starts the application and the cycle. First method to execute
+     * so sets the view on start to the main screen
+     *
+     * @param  savedInstanceState the current state of the client
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
     }
 
-
-///////////////////////////////////////////////////////
-
-    // These are the methods for the buttons on the opening Register/Sign In screen
+    /**
+     * Transitions to the sign in screen view to allow
+     * user to enter information there for login
+     *
+     * @param  v The view passed in which is used
+     */
     public void onClickSignIn(View v) {
         setContentView(R.layout.sign_in_screen);
     }
 
+    /**
+     * Lets the user begin the process or registering with the system
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickBeginRegistration(View v) {
         setContentView(R.layout.registration_screen);
         registerUsername = (EditText) findViewById(R.id.userRegisterUsername);
@@ -62,9 +75,15 @@ public class MainActivity extends AppCompatActivity {
         registerLastName = (EditText) findViewById(R.id.userRegisterLastName);
     }
 
-///////////////////////////////////////////////////////
 
-    // These are the methods for the buttons on the Registration screen
+
+    /**
+     * Allows user to register so the system can make a profile for them
+     * We check for duplicate users in the map (O(1) lookup) and save
+     * that information.
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickRegister(View v) {
         Set usernames = user_holder.keySet();
         String username = registerUsername.getText().toString();
@@ -95,6 +114,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Cancels registration and clears the input fields
+     * if user cancels action.
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickCancelRegister(View v) {
         registerUsername.setText("");
         registerLastName.setText("");
@@ -103,9 +128,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_screen);
     }
 
-///////////////////////////////////////////////////////
 
-    // These are the methods for the buttons on the Login screen
+    /**
+     * Obtains user's user and pass and checks some source
+     * (could be db, hardcoded values, or a local map)
+     * to log user in or alert incorrect login
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickLogin(View v) {
         username = (EditText) findViewById(R.id.editText);
         password = (EditText) findViewById(R.id.editText2);
@@ -125,13 +155,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Allows user to sign back in after logout by taking him back
+     * to the main screen.
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickSignInBack(View v) {
         setContentView(R.layout.activity_main_screen);
     }
 
-///////////////////////////////////////////////////////
-
-    // These are the methods for the main app opening screen
+    /**
+     * Signs user out and for now, simply empties the user and pass
+     * fields and resets the view to the main screen.
+     * Stability and usage of sessions are not currently
+     * implemented.
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickSignOut(View v) {
         if (cameFromLogin) {
             password.setText("");
@@ -139,26 +180,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_screen);
     }
 
+    /**
+     * Sets view to edit profile if user requests it.
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickEditProfile(View v) {
-//        editUsername = (EditText) findViewById(R.id.userEditUsername);
-//        editPassword = (EditText) findViewById(R.id.userEditPassword);
-//        editFirstName = (EditText) findViewById(R.id.userEditFirstName);
-//        editLastName = (EditText) findViewById(R.id.userEditLastName);
-//        editMajor = (EditText) findViewById(R.id.userEditMajor);
-//        editInterests = (EditText) findViewById(R.id.userEditInterests);
-//
-//        editUsername.setText(currentUser.getUsername());
-//        editPassword.setText(currentUser.getPassword());
-//        editFirstName.setText(currentUser.getFirstName());
-//        editLastName.setText(currentUser.getLastName());
-//        editMajor.setText(currentUser.getMajor());
-//
-//        if (currentUser.getInterests().equals("")) {
-//            editInterests.setText("Enter your interests here!");
-//        } else {
-//            editInterests.setText(currentUser.getInterests());
-//        }
-
         setContentView(R.layout.edit_profile);
 
         editUsername = (EditText) findViewById(R.id.userEditUsername);
@@ -182,19 +209,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Placeholder which will eventually display the friends a user has
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickFriends(View v) {
         //Temporary action
         Toast.makeText(MainActivity.this, "You don't have any friends yet!", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Placeholder which will eventually display the groups which a user is in
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickGroups(View v) {
         //Temporary action
         Toast.makeText(MainActivity.this, "You're not in any groups yet!", Toast.LENGTH_SHORT).show();
     }
 
-///////////////////////////////////////////////////////
-
-    // These methods are for the buttons on the update profile screen
+    /**
+     * Attempts to update the fields of a profile, if valid
+     * If updating username, checks to ensure no duplicate usernames
+     * If there are no duplicates, it removes the old username
+     * and reassigns the user to the newly entered username
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickUpdateProfile(View v) {
         String newUsername = editUsername.getText().toString();
         String newPassword = editPassword.getText().toString();
@@ -237,30 +279,33 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Lets a user choose to cancel editing their profile
+     *
+     * @param  v The view passed in that is used
+     */
     public void onClickCancelEdit(View v) {
         switchToMainApp();
     }
 
 
-
-///////////////////////////////////////////////////////
-
-    // Helper Methods
-
-    // This sets/updates the current user variables
-
+    /**
+     * Helper method that allows us to set a currently logged in user
+     * for information such as name, username, password, major, etc.
+     *
+     * @param  username The key to find the current user in the HashMap
+     */
     public void setCurrentUser(String username) {
         currentUser = user_holder.get(username);
     }
 
-    // This switches to the main application opening screen
-    // Used by the Login screen and Registration screen
-
+    /**
+     * Helper method to switch to the core Rotten Potatoes opening screen
+     *
+     */
     public void switchToMainApp() {
         setContentView(R.layout.main_post_sign_in);
         profile_button = (TextView) findViewById(R.id.edit_profile);
         profile_button.setText(String.format("%s's Profile", currentUser.getFullName()));
     }
-
-
 }
