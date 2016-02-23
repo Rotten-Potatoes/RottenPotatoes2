@@ -1,5 +1,6 @@
 package com.example.rahulraina.rottenpotatoes;
 
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -62,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
 
 
@@ -69,8 +74,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickSearch(View v) throws IOException {
         movietext = (SearchView) findViewById(R.id.searchView);
+        String rawMovieTitle = movietext.getQuery().toString();
+        String trimmedTitle = rawMovieTitle.trim();
+        String[] splitMovieTitle = rawMovieTitle.split(" ");
+        String finishedTitle = "";
+        for (int i = 0; i < splitMovieTitle.length; i++) {
+            if (!splitMovieTitle[i].equals("")) {
+                if (i == 0) {
+                    finishedTitle = finishedTitle + splitMovieTitle[i];
+                } else {
+                    finishedTitle = finishedTitle + "+" + splitMovieTitle[i];
+                }
+            }
+        }
+
 //        Toast.makeText(MainActivity.this, "You have entered: " + movietext.getQuery(), Toast.LENGTH_SHORT).show();
-        String urlString = "https://www.omdbapi.com/?t=Toy&y=&plot=short&r=json";
+        String urlString = "https://www.omdbapi.com/?t=" + finishedTitle + "&y=&plot=short&r=json";
         String resp = sendGetRequest(urlString);
 //        Toast.makeText(MainActivity.this, resp, Toast.LENGTH_SHORT).show();
         try{
