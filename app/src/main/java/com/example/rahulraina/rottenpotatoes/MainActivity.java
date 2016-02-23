@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText editMajor;
     private EditText editInterests;
 
+    private TextView movieTitle;
+    private TextView movieYear;
+    private TextView movieRated;
+
     private SearchView movietext;
 
     /**
@@ -74,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickSearch(View v) throws IOException {
         movietext = (SearchView) findViewById(R.id.searchView);
+        movieTitle = (TextView) findViewById(R.id.titleofmovie);
+        movieYear = (TextView) findViewById(R.id.yearofmovie);
+        movieRated = (TextView) findViewById(R.id.ratingofmovie);
+
         String rawMovieTitle = movietext.getQuery().toString();
         String trimmedTitle = rawMovieTitle.trim();
         String[] splitMovieTitle = rawMovieTitle.split(" ");
@@ -88,14 +96,24 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
 //        Toast.makeText(MainActivity.this, "You have entered: " + movietext.getQuery(), Toast.LENGTH_SHORT).show();
         String urlString = "https://www.omdbapi.com/?t=" + finishedTitle + "&y=&plot=short&r=json";
         String resp = sendGetRequest(urlString);
 //        Toast.makeText(MainActivity.this, resp, Toast.LENGTH_SHORT).show();
         try{
             JSONObject jObject = new JSONObject(resp);
-            String aJsonString = jObject.getString("Year");
-            Toast.makeText(MainActivity.this, "Year: " + aJsonString, Toast.LENGTH_SHORT).show();
+            String year = jObject.getString("Year");
+            String title = jObject.getString("Title");
+            String rated = jObject.getString("Rated");
+            String released = jObject.getString("Released");
+            String runtime = jObject.getString("Runtime");
+            movieTitle.setText(title);
+            movieYear.setText(year);
+            movieRated.setText(rated);
+
+
+//            Toast.makeText(MainActivity.this, "Year: " + year, Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             System.out.print(e.getMessage());
         }
