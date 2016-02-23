@@ -103,14 +103,25 @@ public class MainActivity extends AppCompatActivity {
 //        Toast.makeText(MainActivity.this, resp, Toast.LENGTH_SHORT).show();
         try{
             JSONObject jObject = new JSONObject(resp);
-            String year = jObject.getString("Year");
-            String title = jObject.getString("Title");
-            String rated = jObject.getString("Rated");
-            String released = jObject.getString("Released");
-            String runtime = jObject.getString("Runtime");
-            movieTitle.setText(title);
-            movieYear.setText(year);
-            movieRated.setText(rated);
+            String error = jObject.getString("Response");
+            if(error.equals("False")) {
+                movieTitle.setText(jObject.getString("Error"));
+                movieYear.setText("");
+                movieRated.setText("");
+            } else {
+                String year = jObject.getString("Year");
+                String title = jObject.getString("Title");
+                String rated = jObject.getString("Rated");
+                String released = jObject.getString("Released");
+                String runtime = jObject.getString("Runtime");
+                movieTitle.setText(title);
+                movieYear.setText(year);
+                movieRated.setText(rated);
+            }
+
+
+
+
 
 
 //            Toast.makeText(MainActivity.this, "Year: " + year, Toast.LENGTH_SHORT).show();
