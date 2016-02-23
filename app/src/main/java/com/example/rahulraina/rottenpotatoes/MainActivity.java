@@ -2,13 +2,23 @@ package com.example.rahulraina.rottenpotatoes;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.rahulraina.rottenpotatoes.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -40,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText editMajor;
     private EditText editInterests;
 
+    private SearchView movietext;
+
     /**
      * Starts the application and the cycle. First method to execute
      * so sets the view on start to the main screen
@@ -50,8 +62,53 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+
+
+
     }
 
+    public void onClickSearch(View v) throws IOException {
+        movietext = (SearchView) findViewById(R.id.searchView);
+//        Toast.makeText(MainActivity.this, "You have entered: " + movietext.getQuery(), Toast.LENGTH_SHORT).show();
+        String urlString = "https://www.omdbapi.com/?t=Toy&y=&plot=short&r=json";
+        String resp = sendGetRequest(urlString);
+//        Toast.makeText(MainActivity.this, resp, Toast.LENGTH_SHORT).show();
+        try{
+            JSONObject jObject = new JSONObject(resp);
+            String aJsonString = jObject.getString("Year");
+            Toast.makeText(MainActivity.this, "Year: " + aJsonString, Toast.LENGTH_SHORT).show();
+        } catch (JSONException e) {
+            System.out.print(e.getMessage());
+        }
+    }
+    public static String sendGetRequest(String urlString) throws IOException {
+        try {
+            URL obj = new URL(urlString);
+            HttpURLConnection httpConnection = (HttpURLConnection) obj.openConnection();
+            httpConnection.setRequestMethod("GET");
+            int responseCode = httpConnection.getResponseCode();
+            if (responseCode == 200) {
+
+                BufferedReader responseReader = new BufferedReader(new InputStreamReader(
+                        httpConnection.getInputStream()));
+
+                String responseLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((responseLine = responseReader.readLine()) != null) {
+                    response.append(responseLine+"\n");
+                }
+                responseReader.close();
+
+                // print result
+                return response.toString();
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+   // Toast.makeText(MainActivity.this, "You have entered: " + movietext.getQuery(), Toast.LENGTH_SHORT).show();
     /**
      * Transitions to the sign in screen view to allow
      * user to enter information there for login
