@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView movieYear;
     private TextView movieRated;
 
+    private View rateButton;
+
     private SearchView movietext;
 
     /**
@@ -71,9 +74,6 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
-
-
     }
 
     public void onClickSearch(View v) throws IOException {
@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         movieTitle = (TextView) findViewById(R.id.titleofmovie);
         movieYear = (TextView) findViewById(R.id.yearofmovie);
         movieRated = (TextView) findViewById(R.id.ratingofmovie);
+
+        rateButton.setVisibility(View.GONE);
 
         String rawMovieTitle = movietext.getQuery().toString();
         String trimmedTitle = rawMovieTitle.trim();
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 movieTitle.setText(jObject.getString("Error"));
                 movieYear.setText("");
                 movieRated.setText("");
+                rateButton.setVisibility(View.GONE);
             } else {
                 String year = jObject.getString("Year");
                 String title = jObject.getString("Title");
@@ -117,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 movieTitle.setText(title);
                 movieYear.setText(year);
                 movieRated.setText(rated);
+                rateButton.setVisibility(View.VISIBLE);
             }
 
 
@@ -164,7 +168,10 @@ public class MainActivity extends AppCompatActivity {
      * @param  v The view passed in which is used
      */
     public void onClickSignIn(View v) {
+        rateButton = findViewById(R.id.buttonrate);
+
         setContentView(R.layout.sign_in_screen);
+        rateButton.setVisibility(View.INVISIBLE);
     }
 
     /**
