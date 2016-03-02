@@ -93,7 +93,11 @@ public class MainActivity extends AppCompatActivity {
         movieRating = 0f;
     }
 
-    public void submitRating(View v) throws JSONException {
+    /**
+     * On click of the submit rating, store the rating and average it
+     * @param v
+     */
+    public void submitRating(View v) {
         RatingBar movieRatingBar = (RatingBar) findViewById(R.id.ratingBar);
         movieRating = movieRatingBar.getRating();
 
@@ -120,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * search for the movie using the api for omdb and get the title, what its rated, and its year
+     * @param v
+     * @throws IOException
+     */
     public void onClickSearch(View v) throws IOException {
         movietext = (SearchView) findViewById(R.id.searchView);
         movieTitle = (TextView) findViewById(R.id.titleofmovie);
@@ -182,6 +191,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets the actual information on the screen when the data gets pulled from the api
+     */
     public void setMovieInformation() {
 
         movieTitle.setText(currentMovie.getTitle());
@@ -196,6 +208,11 @@ public class MainActivity extends AppCompatActivity {
         rateButton.setVisibility(View.VISIBLE);
     }
 
+
+    /**
+     * when you click on the rate button, take you to the rating screen
+     * @param v
+     */
     public void onClickRate(View v) {
         setContentView(R.layout.rate_movie);
         movieTitleRate = (TextView) findViewById(R.id.movietitle);
@@ -205,10 +222,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * sends you back to the main screen once you're on the rate screen
+     * @param v
+     */
     public void onClickBackFromRate(View v) {
         setContentView(R.layout.main_post_sign_in);
     }
 
+    /**
+     * conects to the api
+     * @param urlString string represenation of the apiurl
+     * @return returns a string of what the url returns
+     * @throws IOException
+     */
     public static String sendGetRequest(String urlString) throws IOException {
         try {
             URL obj = new URL(urlString);

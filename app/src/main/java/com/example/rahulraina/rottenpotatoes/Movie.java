@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * Created by aniruddha on 3/2/16.
+ * holds different movies
  */
 public class Movie {
 
@@ -17,6 +18,14 @@ public class Movie {
     private String runtime;
     float averageRating = -1.0f;
 
+    /**
+     * Constructor for holding a movie
+     * @param title title of the movie
+     * @param year year the movie was released
+     * @param rated what the movie was rated (G, PG, etc)
+     * @param released what year the movie was released
+     * @param runtime the runtime of the movie
+     */
     public Movie(String title, String year, String rated, String released, String runtime) {
         this.title = title;
         this.year = year;
@@ -25,6 +34,11 @@ public class Movie {
         this.runtime = runtime;
     }
 
+    /**
+     * Add rating and average it with all the ratings currently in the system
+     * @param major need the major of the person so later we can search via major
+     * @param rating the actual rating you want to give the movie
+     */
     public void addRating(String major, float rating) {
         if (ratings.keySet().contains(major)) {
             int num = numRatings.get(major);
@@ -47,34 +61,68 @@ public class Movie {
         averageRating = sumRatings / totalRatings;
     }
 
+    /**
+     * returns the average rating
+     * @return float of the average rating
+     */
     public float getAverageRating() {
         return averageRating;
     }
 
+    /**
+     * Returns the average mating by the requestsed major
+     * @param major of students whose rating you're curious about
+     * @return float the ratings of a movie based on major
+     */
     public float getRatingByMajor(String major) {
         return ratings.get(major);
     }
 
+    /**
+     * get the title of the movie
+     * @return String the title of the movie
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * get the year the movie was released
+     * @return String the year the movie was released
+     */
     public String getYear() {
         return year;
     }
 
+    /**
+     * get what the movie is rated
+     * @return String what the movie is rated
+     */
     public String getRated() {
         return rated;
     }
 
+    /**
+     * the year the movie was released
+     * @return String of when the movie was released
+     */
     public String getReleased() {
         return released;
     }
 
+    /**
+     * get the runtime of the movie
+     * @return String runtime of the movie
+     */
     public String getRuntime() {
         return runtime;
     }
 
+    /**
+     * Checks if the movie hsa already been rated by someone before
+     * @param other compared to another movie
+     * @return boolean of if the movie equals another
+     */
     public boolean equals(Object other) {
         if (other == null) {
             return false;
