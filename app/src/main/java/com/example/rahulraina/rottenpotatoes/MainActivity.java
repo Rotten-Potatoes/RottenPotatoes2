@@ -141,9 +141,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickRate(View v) {
+        setContentView(R.layout.rate_movie);
         movieTitleRate = (TextView) findViewById(R.id.movietitle);
         movieTitleRate.setText(title);
-        setContentView(R.layout.rate_movie);
 
     }
 
