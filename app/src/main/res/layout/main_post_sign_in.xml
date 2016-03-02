@@ -117,8 +117,8 @@
                 android:layout_weight="0.2"
                 android:visibility="invisible"
                 android:id="@+id/buttonrate"
-                android:layout_alignParentRight="true"
                 android:layout_toRightOf="@+id/userratingofmovie"
+
                 android:onClick = "onClickRate" />
         </RelativeLayout>
 

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     HashMap<String, User> user_holder = new HashMap<>();
 
     //Hashmap for movie to rating
-    private HashMap<String, Integer> rating_holder = new HashMap<>();
+    private HashMap<String, Float> rating_holder = new HashMap<>();
 
     private User currentUser;
 
@@ -66,9 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
     private String title;
     private String year;
+    private String rated;
+
+    private JSONObject jObject;
 
 
     private View rateButton;
+    private Float movieRating;
 
     private SearchView movietext;
 
@@ -86,6 +90,27 @@ public class MainActivity extends AppCompatActivity {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+        movieRating = 0f;
+    }
+
+    public void submitRating(View v) throws JSONException {
+        String mapMovietitle = movieTitleRate.getText().toString();
+        RatingBar movieRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+        movieRating = (Float) movieRatingBar.getRating();
+
+        rating_holder.put(mapMovietitle, movieRating);
+        setContentView(R.layout.main_post_sign_in);
+        
+        movietext = (SearchView) findViewById(R.id.searchView);
+        movieTitle = (TextView) findViewById(R.id.titleofmovie);
+        movieYear = (TextView) findViewById(R.id.yearofmovie);
+        movieRated = (TextView) findViewById(R.id.ratingofmovie);
+        movieUserRating = (TextView) findViewById(R.id.userratingofmovie);
+        rateButton = findViewById(R.id.buttonrate);
+
+
+        setMovieInformation();
+
     }
 
     public void onClickSearch(View v) throws IOException {
@@ -115,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         String resp = sendGetRequest(urlString);
 //        Toast.makeText(MainActivity.this, resp, Toast.LENGTH_SHORT).show();
         try{
-            JSONObject jObject = new JSONObject(resp);
+            jObject = new JSONObject(resp);
             String error = jObject.getString("Response");
             if(error.equals("False")) {
                 movieTitle.setText(jObject.getString("Error"));
@@ -126,14 +151,10 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 year = jObject.getString("Year");
                 title = jObject.getString("Title");
-                String rated = jObject.getString("Rated");
+                rated = jObject.getString("Rated");
                 String released = jObject.getString("Released");
                 String runtime = jObject.getString("Runtime");
-                movieTitle.setText(title);
-                movieYear.setText(year);
-                movieRated.setText(rated);
-                movieUserRating.setText("No user rating");
-                rateButton.setVisibility(View.VISIBLE);
+                setMovieInformation();
             }
 
 
@@ -145,6 +166,22 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             System.out.print(e.getMessage());
         }
+    }
+
+    public void setMovieInformation() {
+
+        movieTitle.setText(title);
+        movieYear.setText(year);
+        movieRated.setText(rated);
+
+        Float specificMovieRating = rating_holder.get(title);
+
+        if (!rating_holder.containsKey(title)) {
+            movieUserRating.setText("No user rating");
+        } else {
+            movieUserRating.setText("Rating: " + String.valueOf(specificMovieRating));
+        }
+        rateButton.setVisibility(View.VISIBLE);
     }
 
     public void onClickRate(View v) {
@@ -445,13 +482,5 @@ public class MainActivity extends AppCompatActivity {
         profile_button.setText(String.format("%s's Profile", currentUser.getFullName()));
     }
 
-    public void submitRating(View v) {
-        String title = movieTitleRate.getText().toString();
-        RatingBar movieRatingBar = (RatingBar) findViewById(R.id.ratingBar);
-        int movieRating = (int) movieRatingBar.getRating();
 
-        rating_holder.put(title, movieRating);
-        setContentView(R.layout.main_post_sign_in);
-
-    }
 }
