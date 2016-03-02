@@ -50,6 +50,7 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/submitrating"
+        android:onClick="submitRating"
         android:layout_gravity="center_horizontal"/>
 
     <Button

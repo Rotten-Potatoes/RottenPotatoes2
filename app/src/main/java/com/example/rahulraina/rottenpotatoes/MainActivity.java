@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     // HashMap from username to User Object
     HashMap<String, User> user_holder = new HashMap<>();
+
+    //Hashmap for movie to rating
+    private HashMap<String, Integer> rating_holder = new HashMap<>();
 
     private User currentUser;
 
@@ -434,5 +438,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_post_sign_in);
         profile_button = (TextView) findViewById(R.id.edit_profile);
         profile_button.setText(String.format("%s's Profile", currentUser.getFullName()));
+    }
+
+    public void submitRating(View v) {
+        String title = movieTitleRate.getText().toString();
+        RatingBar movieRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+        int movieRating = (int) movieRatingBar.getRating();
+
+        rating_holder.put(title, movieRating);
+        setContentView(R.layout.main_post_sign_in);
+
     }
 }
