@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         movieYear = (TextView) findViewById(R.id.yearofmovie);
         movieRated = (TextView) findViewById(R.id.ratingofmovie);
         rateButton = findViewById(R.id.buttonrate);
-        rateButton.setVisibility(View.INVISIBLE);
         String rawMovieTitle = movietext.getQuery().toString();
         String trimmedTitle = rawMovieTitle.trim();
         String[] splitMovieTitle = rawMovieTitle.split(" ");
@@ -144,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.rate_movie);
         movieTitleRate = (TextView) findViewById(R.id.movietitle);
         movieTitleRate.setText(title);
+        movieYearRate = (TextView) findViewById(R.id.movieyear);
+        movieYearRate.setText(year);
 
     }
 

@@ -108,6 +108,7 @@
                 android:layout_height="wrap_content"
                 android:text="Rate this movie"
                 android:layout_weight="0.2"
+                android:visibility="invisible"
                 android:id="@+id/buttonrate"
                 android:layout_toRightOf="@+id/ratingofmovie"
                 android:onClick = "onClickRate" />
