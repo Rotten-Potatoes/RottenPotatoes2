@@ -81,9 +81,8 @@ public class MainActivity extends AppCompatActivity {
         movieTitle = (TextView) findViewById(R.id.titleofmovie);
         movieYear = (TextView) findViewById(R.id.yearofmovie);
         movieRated = (TextView) findViewById(R.id.ratingofmovie);
-
-        rateButton.setVisibility(View.GONE);
-
+        rateButton = findViewById(R.id.buttonrate);
+        rateButton.setVisibility(View.INVISIBLE);
         String rawMovieTitle = movietext.getQuery().toString();
         String trimmedTitle = rawMovieTitle.trim();
         String[] splitMovieTitle = rawMovieTitle.split(" ");
@@ -168,10 +167,7 @@ public class MainActivity extends AppCompatActivity {
      * @param  v The view passed in which is used
      */
     public void onClickSignIn(View v) {
-        rateButton = findViewById(R.id.buttonrate);
-
         setContentView(R.layout.sign_in_screen);
-        rateButton.setVisibility(View.INVISIBLE);
     }
 
     /**
