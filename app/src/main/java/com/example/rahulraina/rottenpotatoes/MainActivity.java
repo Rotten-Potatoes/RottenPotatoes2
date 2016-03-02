@@ -56,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView movieYear;
     private TextView movieRated;
 
+    private TextView movieTitleRate;
+    private TextView movieYearRate;
+
+    private String title;
+    private String year;
+
+
     private View rateButton;
 
     private SearchView movietext;
@@ -111,8 +118,8 @@ public class MainActivity extends AppCompatActivity {
                 movieRated.setText("");
                 rateButton.setVisibility(View.GONE);
             } else {
-                String year = jObject.getString("Year");
-                String title = jObject.getString("Title");
+                year = jObject.getString("Year");
+                title = jObject.getString("Title");
                 String rated = jObject.getString("Rated");
                 String released = jObject.getString("Released");
                 String runtime = jObject.getString("Runtime");
@@ -132,6 +139,18 @@ public class MainActivity extends AppCompatActivity {
             System.out.print(e.getMessage());
         }
     }
+
+    public void onClickRate(View v) {
+        movieTitleRate = (TextView) findViewById(R.id.movietitle);
+        movieTitleRate.setText(title);
+        setContentView(R.layout.rate_movie);
+
+    }
+
+    public void onClickBackFromRate(View v) {
+        setContentView(R.layout.main_post_sign_in);
+    }
+
     public static String sendGetRequest(String urlString) throws IOException {
         try {
             URL obj = new URL(urlString);
