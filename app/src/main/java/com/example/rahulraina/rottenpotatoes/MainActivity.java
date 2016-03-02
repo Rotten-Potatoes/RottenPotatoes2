@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
      * @param v
      */
     public void onClickBackFromRate(View v) {
-        setContentView(R.layout.main_post_sign_in);
+        switchToMainApp();
     }
 
     /**
@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
-   // Toast.makeText(MainActivity.this, "You have entered: " + movietext.getQuery(), Toast.LENGTH_SHORT).show();
+
     /**
      * Transitions to the sign in screen view to allow
      * user to enter information there for login
