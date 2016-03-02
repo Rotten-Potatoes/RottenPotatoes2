@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView movieTitle;
     private TextView movieYear;
     private TextView movieRated;
+    private TextView movieUserRating;
 
     private TextView movieTitleRate;
     private TextView movieYearRate;
@@ -92,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
         movieTitle = (TextView) findViewById(R.id.titleofmovie);
         movieYear = (TextView) findViewById(R.id.yearofmovie);
         movieRated = (TextView) findViewById(R.id.ratingofmovie);
+        movieUserRating = (TextView) findViewById(R.id.userratingofmovie);
         rateButton = findViewById(R.id.buttonrate);
-        rateButton.setVisibility(View.INVISIBLE);
         String rawMovieTitle = movietext.getQuery().toString();
         String trimmedTitle = rawMovieTitle.trim();
         String[] splitMovieTitle = rawMovieTitle.split(" ");
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 movieTitle.setText(jObject.getString("Error"));
                 movieYear.setText("");
                 movieRated.setText("");
+                movieUserRating.setText("");
                 rateButton.setVisibility(View.GONE);
             } else {
                 year = jObject.getString("Year");
@@ -130,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 movieTitle.setText(title);
                 movieYear.setText(year);
                 movieRated.setText(rated);
+                movieUserRating.setText("No user rating");
                 rateButton.setVisibility(View.VISIBLE);
             }
 
@@ -148,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.rate_movie);
         movieTitleRate = (TextView) findViewById(R.id.movietitle);
         movieTitleRate.setText(title);
+        movieYearRate = (TextView) findViewById(R.id.movieyear);
+        movieYearRate.setText(year);
 
     }
 

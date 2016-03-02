@@ -103,13 +103,22 @@
                 android:layout_toRightOf="@+id/titleofmovie"
                 android:paddingLeft="10dp"
                 />
+            <TextView android:id="@+id/userratingofmovie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_toRightOf="@+id/ratingofmovie"
+                android:paddingLeft="10dp"
+                />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rate this movie"
                 android:layout_weight="0.2"
+                android:visibility="invisible"
                 android:id="@+id/buttonrate"
-                android:layout_toRightOf="@+id/ratingofmovie"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/userratingofmovie"
                 android:onClick = "onClickRate" />
         </RelativeLayout>
 
