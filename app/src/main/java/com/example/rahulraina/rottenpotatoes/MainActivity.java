@@ -22,7 +22,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     HashMap<String, User> user_holder = new HashMap<>();
 
     //Hashmap for movie to rating
-    private HashMap<String, Float> rating_holder = new HashMap<>();
+    private List<Movie> movies_rated = new ArrayList<>();
 
     private User currentUser;
 
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editMajor;
     private EditText editInterests;
 
+    private Movie currentMovie;
     private TextView movieTitle;
     private TextView movieYear;
     private TextView movieRated;
@@ -63,10 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView movieTitleRate;
     private TextView movieYearRate;
-
-    private String title;
-    private String year;
-    private String rated;
 
     private JSONObject jObject;
 
@@ -94,22 +94,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void submitRating(View v) throws JSONException {
-        String mapMovietitle = movieTitleRate.getText().toString();
         RatingBar movieRatingBar = (RatingBar) findViewById(R.id.ratingBar);
-        movieRating = (Float) movieRatingBar.getRating();
+        movieRating = movieRatingBar.getRating();
 
-        rating_holder.put(mapMovietitle, movieRating);
-        setContentView(R.layout.main_post_sign_in);
-        
-        movietext = (SearchView) findViewById(R.id.searchView);
-        movieTitle = (TextView) findViewById(R.id.titleofmovie);
-        movieYear = (TextView) findViewById(R.id.yearofmovie);
-        movieRated = (TextView) findViewById(R.id.ratingofmovie);
-        movieUserRating = (TextView) findViewById(R.id.userratingofmovie);
-        rateButton = findViewById(R.id.buttonrate);
+        String major = currentUser.getMajor();
+        if (major.equals("")) {
+            Toast.makeText(MainActivity.this, "You must specify your major before you may rate movies. Edit your profile to get started!",
+                    Toast.LENGTH_SHORT).show();
+
+        } else {
+            currentMovie.addRating(major, movieRating);
+            setContentView(R.layout.main_post_sign_in);
+
+            movietext = (SearchView) findViewById(R.id.searchView);
+            movieTitle = (TextView) findViewById(R.id.titleofmovie);
+            movieYear = (TextView) findViewById(R.id.yearofmovie);
+            movieRated = (TextView) findViewById(R.id.ratingofmovie);
+            movieUserRating = (TextView) findViewById(R.id.userratingofmovie);
+            rateButton = findViewById(R.id.buttonrate);
 
 
-        setMovieInformation();
+            setMovieInformation();
+        }
+
 
     }
 
@@ -149,11 +156,18 @@ public class MainActivity extends AppCompatActivity {
                 movieUserRating.setText("");
                 rateButton.setVisibility(View.GONE);
             } else {
-                year = jObject.getString("Year");
-                title = jObject.getString("Title");
-                rated = jObject.getString("Rated");
+
+                String year = jObject.getString("Year");
+                String title = jObject.getString("Title");
+                String rated = jObject.getString("Rated");
                 String released = jObject.getString("Released");
                 String runtime = jObject.getString("Runtime");
+                currentMovie = new Movie(title, year, rated, released, runtime);
+                if (!(movies_rated.contains(currentMovie))) {
+                    movies_rated.add(currentMovie);
+                } else {
+                    currentMovie = movies_rated.get(movies_rated.indexOf(currentMovie));
+                }
                 setMovieInformation();
             }
 
@@ -170,16 +184,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void setMovieInformation() {
 
-        movieTitle.setText(title);
-        movieYear.setText(year);
-        movieRated.setText(rated);
+        movieTitle.setText(currentMovie.getTitle());
+        movieYear.setText(currentMovie.getYear());
+        movieRated.setText(currentMovie.getRated());
 
-        Float specificMovieRating = rating_holder.get(title);
-
-        if (!rating_holder.containsKey(title)) {
+        if (!movies_rated.contains(currentMovie) || currentMovie.getAverageRating() == -1.0f) {
             movieUserRating.setText("No user rating");
         } else {
-            movieUserRating.setText("Rating: " + String.valueOf(specificMovieRating));
+            movieUserRating.setText("Rating: " + String.valueOf(currentMovie.getAverageRating()));
         }
         rateButton.setVisibility(View.VISIBLE);
     }
@@ -187,9 +199,9 @@ public class MainActivity extends AppCompatActivity {
     public void onClickRate(View v) {
         setContentView(R.layout.rate_movie);
         movieTitleRate = (TextView) findViewById(R.id.movietitle);
-        movieTitleRate.setText(title);
+        movieTitleRate.setText(currentMovie.getTitle());
         movieYearRate = (TextView) findViewById(R.id.movieyear);
-        movieYearRate.setText(year);
+        movieYearRate.setText(currentMovie.getYear());
 
     }
 
