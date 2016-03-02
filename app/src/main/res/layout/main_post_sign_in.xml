@@ -80,6 +80,7 @@
     android:layout_height="match_parent"
     android:layout_below="@+id/buttonsearch"
     android:orientation="vertical" >
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -102,6 +103,14 @@
                 android:layout_toRightOf="@+id/titleofmovie"
                 android:paddingLeft="10dp"
                 />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rate this movie"
+                android:layout_weight="0.2"
+                android:id="@+id/buttonrate"
+                android:layout_toRightOf="@+id/yearofmovie"
+                android:onClick = "onClickRate" />
         </RelativeLayout>
 
 
