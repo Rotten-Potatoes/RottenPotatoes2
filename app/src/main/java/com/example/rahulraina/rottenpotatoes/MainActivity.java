@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -23,12 +25,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     // Variables for Login Screen
     private EditText username;
     private EditText password;
@@ -92,6 +96,49 @@ public class MainActivity extends AppCompatActivity {
         }
         movieRating = 0f;
     }
+
+    /**
+     * takes you to the filter screen
+     * @param v
+     */
+    public void onClickFilter(View v) {
+        if (movies_rated.size() == 0) {
+            Toast.makeText(MainActivity.this, "No movies have been rated by users!",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            setContentView(R.layout.filter_search);
+        }
+    }
+
+    public void submitFilter(View v) {
+        List<Movie> sorted_by_rating = new ArrayList<Movie>(movies_rated);
+        CheckBox filterCheckBox= (CheckBox) findViewById(R.id.checkBoxRating);
+        if (filterCheckBox.isChecked()) {
+            Collections.sort(sorted_by_rating, new RatingComparator());
+//        setContentView(R.layout.main_post_sign_in);
+            String names = "";
+            int i = 0;
+            for (i = 0; i < sorted_by_rating.size() - 1; i++) {
+                names += sorted_by_rating.get(i).getTitle() + ": " + sorted_by_rating.get(i).getAverageRating() + ", ";
+            }
+            names += sorted_by_rating.get(i).getTitle() + ": " + sorted_by_rating.get(i).getAverageRating();
+            String test = "Size: " + sorted_by_rating.size();
+            Toast.makeText(MainActivity.this, names, Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(MainActivity.this, "Please select a filter", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    }
+
+    class RatingComparator implements Comparator<Movie> {
+        public int compare(Movie m1, Movie m2) {
+            return (int) (m2.getAverageRating() - m1.getAverageRating());
+        }
+    }
+
 
     /**
      * On click of the submit rating, store the rating and average it
@@ -520,6 +567,8 @@ public class MainActivity extends AppCompatActivity {
         profile_button = (TextView) findViewById(R.id.edit_profile);
         profile_button.setText(String.format("%s's Profile", currentUser.getFullName()));
     }
+
+
 
 
 }
