@@ -79,7 +79,7 @@
         android:text="Filter"
         android:id="@+id/buttonfilter"
         android:layout_below="@+id/buttonsearch"
-        android:layout_alignLeft="@+id/buttonsearch"
+        android:layout_alignRight="@+id/buttonsearch"
         android:layout_marginLeft="2dp"
         android:onClick="onClickFilter"/>
 

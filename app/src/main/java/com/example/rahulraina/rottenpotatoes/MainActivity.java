@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity{
 //        setContentView(R.layout.main_post_sign_in);
         List<String> a = new ArrayList<>();
             for(Movie e: sorted_by_rating) {
-                a.add(e.getTitle() + " " + e.getAverageRating());
+                a.add(e.getTitle() + " - " + e.getAverageRating());
                 System.out.println(e.getTitle());
             }
 
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity{
             }
             names += sorted_by_rating.get(i).getTitle() + ": " + sorted_by_rating.get(i).getAverageRating();
             String test = "Size: " + sorted_by_rating.size();
-            Toast.makeText(MainActivity.this, names, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(MainActivity.this, names, Toast.LENGTH_SHORT).show();
 
         } else {
             Toast.makeText(MainActivity.this, "Please select a filter", Toast.LENGTH_SHORT).show();
@@ -154,7 +154,12 @@ public class MainActivity extends AppCompatActivity{
 
     class RatingComparator implements Comparator<Movie> {
         public int compare(Movie m1, Movie m2) {
-            return (int) (m2.getAverageRating() - m1.getAverageRating());
+            if(m2.getAverageRating() < m1.getAverageRating()) {
+                return -1;
+            } else if ( m2.getAverageRating() > m1.getAverageRating()) {
+                return 1;
+            }
+            return 0;
         }
     }
 
