@@ -70,7 +70,7 @@ public class Movie {
     }
 
     /**
-     * Returns the average mating by the requestsed major
+     * Returns the average mating by the requested major
      * @param major of students whose rating you're curious about
      * @return float the ratings of a movie based on major
      */
@@ -141,5 +141,9 @@ public class Movie {
                 && rated.equals(that.rated)
                 && released.equals(that.released)
                 && runtime.equals(that.runtime);
+    }
+
+    public boolean ratedByMajor(String major) {
+        return ratings.keySet().contains(major);
     }
 }

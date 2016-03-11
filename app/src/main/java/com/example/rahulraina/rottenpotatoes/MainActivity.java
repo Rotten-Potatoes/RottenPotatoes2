@@ -115,39 +115,57 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void submitFilter(View v) {
-        List<Movie> sorted_by_rating = new ArrayList<Movie>(movies_rated);
+        List<Movie> sorted = new ArrayList<Movie>(movies_rated);
+
+        EditText filterMajor = (EditText) findViewById(R.id.filterMajor);
         CheckBox filterCheckBox= (CheckBox) findViewById(R.id.checkBoxRating);
         lv = (ListView) findViewById(R.id.movieslist);
-        if (filterCheckBox.isChecked()) {
-            Collections.sort(sorted_by_rating, new RatingComparator());
-//        setContentView(R.layout.main_post_sign_in);
-        List<String> a = new ArrayList<>();
-            for(Movie e: sorted_by_rating) {
-                a.add(e.getTitle() + " - " + e.getAverageRating());
-                System.out.println(e.getTitle());
+
+        Comparator<Movie> comparator = null;
+        String x = filterMajor.getText().toString();
+
+        if (filterCheckBox.isChecked() && !filterMajor.getText().toString().equals("")) {
+            List<Movie> other = new ArrayList<Movie>();
+            for(Movie m: sorted) {
+                if (m.ratedByMajor(filterMajor.getText().toString())) {
+                    other.add(m);
+                }
             }
-
-
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    a);
-
-            lv.setAdapter(arrayAdapter);
-
-            String names = "";
-            int i = 0;
-            for (i = 0; i < sorted_by_rating.size() - 1; i++) {
-                names += sorted_by_rating.get(i).getTitle() + ": " + sorted_by_rating.get(i).getAverageRating() + ", ";
+            comparator = new RatingMajorComparator(filterMajor.getText().toString());
+            sorted = other;
+        } else if (filterCheckBox.isChecked()) {
+            comparator = new RatingComparator();
+        } else if (!filterMajor.getText().equals("")) {
+            List<Movie> other = new ArrayList<Movie>();
+            for(Movie m: sorted) {
+                if (m.ratedByMajor(filterMajor.getText().toString())) {
+                    other.add(m);
+                }
             }
-            names += sorted_by_rating.get(i).getTitle() + ": " + sorted_by_rating.get(i).getAverageRating();
-            String test = "Size: " + sorted_by_rating.size();
-//            Toast.makeText(MainActivity.this, names, Toast.LENGTH_SHORT).show();
-
+            comparator = null;
+            sorted = other;
         } else {
             Toast.makeText(MainActivity.this, "Please select a filter", Toast.LENGTH_SHORT).show();
         }
 
+        if (comparator != null) {
+            Collections.sort(sorted, comparator);
+        }
+
+
+        List<String> a = new ArrayList<>();
+        for(Movie e: sorted) {
+            a.add(e.getTitle() + " - " + e.getAverageRating());
+            System.out.println(e.getTitle());
+        }
+
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                a);
+
+        lv.setAdapter(arrayAdapter);
 
 
     }
@@ -163,6 +181,20 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    class RatingMajorComparator implements Comparator<Movie> {
+        String major;
+        public RatingMajorComparator(String major) {
+            this.major = major;
+        }
+        public int compare(Movie m1, Movie m2) {
+            if(m2.getRatingByMajor(major) < m1.getRatingByMajor(major)) {
+                return -1;
+            } else if ( m2.getRatingByMajor(major) > m1.getRatingByMajor(major)) {
+                return 1;
+            }
+            return 0;
+        }
+    }
 
     /**
      * On click of the submit rating, store the rating and average it
@@ -179,7 +211,7 @@ public class MainActivity extends AppCompatActivity{
 
         } else {
             currentMovie.addRating(major, movieRating);
-            setContentView(R.layout.main_post_sign_in);
+            switchToMainApp();
 
             movietext = (SearchView) findViewById(R.id.searchView);
             movieTitle = (TextView) findViewById(R.id.titleofmovie);
@@ -484,9 +516,7 @@ public class MainActivity extends AppCompatActivity{
         editLastName.setText(currentUser.getLastName());
         editMajor.setText(currentUser.getMajor());
 
-        if (currentUser.getInterests().equals("")) {
-            editInterests.setText("Enter your interests here!");
-        } else {
+        if (!currentUser.getInterests().equals("")) {
             editInterests.setText(currentUser.getInterests());
         }
 
@@ -591,6 +621,9 @@ public class MainActivity extends AppCompatActivity{
         profile_button = (TextView) findViewById(R.id.edit_profile);
         profile_button.setText(String.format("%s's Profile", currentUser.getFullName()));
     }
+
+
+
 
 
 

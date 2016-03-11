@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/majorrating"
         android:layout_alignTop="@+id/majorrating"
-        android:id="@+id/editText5"
+        android:id="@+id/filterMajor"
         android:inputType="textPersonName"
         android:ems="10"/>
 
@@ -59,7 +59,7 @@
     android:text="Back to Search"
         android:onClick="onClickBackFromRate"
         android:id="@+id/back"
-        android:layout_alignStart="@+id/editText5"
+        android:layout_alignStart="@+id/filterMajor"
         android:layout_alignEnd="@+id/filt" />
 
     <Button
@@ -68,7 +68,7 @@
         android:text="Filter"
         android:id="@+id/filt"
         android:layout_above="@+id/back"
-        android:layout_alignEnd="@+id/editText5"
+        android:layout_alignEnd="@+id/filterMajor"
         android:layout_alignStart="@+id/checkBoxRating"
         android:onClick="submitFilter"/>
 
@@ -80,7 +80,7 @@
         android:layout_marginTop="20dp"
         android:text="Recommended Movies:"
         android:id="@+id/moviefound"
-        android:layout_below="@+id/editText5"
+        android:layout_below="@+id/filterMajor"
         android:shadowColor="#efefef"
         android:shadowDx="2"
         android:shadowDy="2"

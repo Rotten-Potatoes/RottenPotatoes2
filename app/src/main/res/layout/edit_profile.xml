@@ -138,6 +138,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:scrollbars="vertical"
+        android:hint="Enter your interests here! (comma separated)"
         android:layout_below="@+id/userEditMajor"
         android:layout_alignRight="@+id/userEditMajor"
         android:layout_alignEnd="@+id/userEditMajor"
