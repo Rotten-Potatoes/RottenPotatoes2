@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.SearchView;
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity{
     private EditText username;
     private EditText password;
     private TextView profile_button;
+
+    private ListView lv;
 
     // Variables for Registration Screen
     private EditText registerUsername;
@@ -113,9 +117,24 @@ public class MainActivity extends AppCompatActivity{
     public void submitFilter(View v) {
         List<Movie> sorted_by_rating = new ArrayList<Movie>(movies_rated);
         CheckBox filterCheckBox= (CheckBox) findViewById(R.id.checkBoxRating);
+        lv = (ListView) findViewById(R.id.movieslist);
         if (filterCheckBox.isChecked()) {
             Collections.sort(sorted_by_rating, new RatingComparator());
 //        setContentView(R.layout.main_post_sign_in);
+        List<String> a = new ArrayList<>();
+            for(Movie e: sorted_by_rating) {
+                a.add(e.getTitle() + " " + e.getAverageRating());
+                System.out.println(e.getTitle());
+            }
+
+
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    a);
+
+            lv.setAdapter(arrayAdapter);
+
             String names = "";
             int i = 0;
             for (i = 0; i < sorted_by_rating.size() - 1; i++) {
