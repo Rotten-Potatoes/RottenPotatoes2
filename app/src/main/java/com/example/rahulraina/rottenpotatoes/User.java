@@ -11,6 +11,9 @@ public class User {
     private String major = "";
     private String interests = "";
 
+    private boolean isBanned;
+    private boolean isLocked;
+
     /**
      * Constructor for the user
      * @param username username to log in
@@ -23,6 +26,8 @@ public class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        isBanned = false;
+        isLocked = false;
     }
 
     /**
@@ -71,6 +76,22 @@ public class User {
      */
     public String getMajor() {
         return major;
+    }
+
+    public void setBan(boolean ban) {
+        isBanned = ban;
+    }
+
+    public boolean getBan() {
+        return isBanned;
+    }
+
+    public boolean getIsLocked() {
+        return isLocked;
+    }
+
+    public void setLock(boolean lock) {
+        isLocked = lock;
     }
 
     /**

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User: "
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:padding="10dp"
+        android:id="@+id/userSearchHeader"
+        />
+
+    <SearchView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/adminSearchView"
+        android:layout_below="@+id/userSearchHeader"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:layout_weight="0.2"
+        android:id="@+id/useradminsearchbutton"
+        android:onClick = "onClickSearchUserBase"
+        android:layout_alignTop="@+id/adminSearchView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="39dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_below="@+id/adminSearchView"
+        android:padding="10dp"
+        android:id="@+id/nameofuser" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activate"
+        android:id="@+id/activatebutton"
+        android:visibility="gone"
+        android:onClick="activateUser"
+        android:layout_alignTop="@+id/nameofuser"
+        android:layout_alignEnd="@+id/textView3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ban"
+        android:id="@+id/banbutton"
+        android:visibility="gone"
+        android:onClick="banUser"
+        android:layout_alignTop="@+id/activatebutton"
+        android:layout_toEndOf="@+id/activatebutton" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unlock"
+        android:visibility="gone"
+        android:id="@+id/unlockButton"
+        android:onClick="unlockUser"
+        android:layout_alignTop="@+id/banbutton"
+        android:layout_toEndOf="@+id/banbutton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="106dp"
+        android:onClick="setUpAdminPage2"
+        android:id="@+id/textView3" />
+
+</RelativeLayout>

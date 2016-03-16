@@ -83,6 +83,11 @@ public class MainActivity extends AppCompatActivity{
     private Float movieRating;
 
     private SearchView movietext;
+    User selectedUser;
+
+    private User lockedUser;
+    private String lockedUsername;
+
 
     /**
      * Starts the application and the cycle. First method to execute
@@ -99,6 +104,11 @@ public class MainActivity extends AppCompatActivity{
             StrictMode.setThreadPolicy(policy);
         }
         movieRating = 0f;
+        lockedUsername="locked";
+        lockedUser = new User(lockedUsername, "pineapples", "Rahul", "Raina");
+        lockedUser.setLock(true);
+        user_holder.put(lockedUsername, lockedUser);
+
     }
 
     /**
@@ -170,6 +180,33 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+    public void setUpAdminPage2(View v) {
+        setUpAdminPage();
+    }
+
+    public void setUpAdminPage() {
+        setContentView(R.layout.admin_page);
+        ListView admin_user_list = (ListView) findViewById(R.id.adminUserList);
+
+        List<String> usernames_for_admin = new ArrayList<>();
+
+        for(User u: user_holder.values()) {
+            usernames_for_admin.add(u.getFullName() + "         Banned: " + u.getBan() + " | Locked: " + u.getIsLocked());
+        }
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                usernames_for_admin);
+
+        admin_user_list.setAdapter(arrayAdapter);
+
+    }
+
+    public void toBanPage(View v) {
+        setContentView(R.layout.ban_page);
+    }
+
     class RatingComparator implements Comparator<Movie> {
         public int compare(Movie m1, Movie m2) {
             if(m2.getAverageRating() < m1.getAverageRating()) {
@@ -225,6 +262,67 @@ public class MainActivity extends AppCompatActivity{
         }
 
 
+    }
+
+    public void onClickSearchUserBase(View v) {
+        SearchView adminSearchText = (SearchView) findViewById(R.id.adminSearchView);
+        Button activationButton = (Button) findViewById(R.id.activatebutton);
+        Button banningButton = (Button) findViewById(R.id.banbutton);
+        Button unlockingButton = (Button) findViewById(R.id.unlockButton);
+
+
+        String search_username = adminSearchText.getQuery().toString();
+        TextView userToBan = (TextView) findViewById(R.id.nameofuser);
+        for (User u:user_holder.values()) {
+            if (search_username.equals(u.getUsername())) {
+                userToBan.setText(u.getUsername());
+                selectedUser = u;
+                activationButton.setVisibility(View.VISIBLE);
+                banningButton.setVisibility(View.VISIBLE);
+                unlockingButton.setVisibility(View.VISIBLE);
+
+
+            }
+        }
+    }
+
+    public void activateUser(View v) {
+        if (selectedUser != null) {
+            if (!selectedUser.getBan()) {
+                Toast.makeText(MainActivity.this, "This user is already active.",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                selectedUser.setBan(false);
+                Toast.makeText(MainActivity.this, selectedUser.getUsername() + " has been reactivated." , Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    }
+
+    public void banUser(View v) {
+        if (selectedUser != null) {
+            if (selectedUser.getBan()) {
+                Toast.makeText(MainActivity.this, "This user is already banned.",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                selectedUser.setBan(true);
+                Toast.makeText(MainActivity.this, selectedUser.getUsername() + " has been banned." , Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    }
+
+    public void unlockUser(View v) {
+        if (selectedUser != null) {
+            if (!selectedUser.getIsLocked()) {
+                Toast.makeText(MainActivity.this, "This user is already unlocked.",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                selectedUser.setLock(false);
+                Toast.makeText(MainActivity.this, selectedUser.getUsername() + " has been unlocked." , Toast.LENGTH_SHORT).show();
+
+            }
+        }
     }
 
     /**
@@ -407,7 +505,7 @@ public class MainActivity extends AppCompatActivity{
         String lastname = registerLastName.getText().toString();
 
         if (username.equals("") || password.equals("")
-                || firstname.equals("") || lastname.equals("")) {
+                || firstname.equals("") || lastname.equals("") || username.equals(Admin.getUsername())) {
             Toast.makeText(MainActivity.this, "One or more fields is missing or invalid", Toast.LENGTH_SHORT).show();
         } else {
             boolean isUsernameTaken = usernames.contains(username);
@@ -444,6 +542,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
+
+
     /**
      * Obtains user's user and pass and checks some source
      * (could be db, hardcoded values, or a local map)
@@ -458,16 +558,30 @@ public class MainActivity extends AppCompatActivity{
         String usernameString = username.getText().toString();
         String passwordString = password.getText().toString();
 
-        if (user_holder.keySet().contains(usernameString)
-                && passwordString.equals(user_holder.get(usernameString).getPassword())) {
-            setCurrentUser(usernameString);
-            cameFromLogin = true;
-            switchToMainApp();
-
+        if (user_holder.keySet().contains(usernameString) && user_holder.get(usernameString).getBan()) {
+            Toast.makeText(MainActivity.this, "This user is banned", Toast.LENGTH_SHORT).show();
+        } else if (user_holder.keySet().contains(usernameString) && user_holder.get(usernameString).getIsLocked()) {
+            Toast.makeText(MainActivity.this, "This user is locked", Toast.LENGTH_SHORT).show();
         } else {
-            password.setText("");
-            Toast.makeText(MainActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
+            if (usernameString.equals(Admin.getUsername()) && passwordString.equals(Admin.getPassword())) {
+                setUpAdminPage();
+            } else {
+                if (user_holder.keySet().contains(usernameString)
+                        && passwordString.equals(user_holder.get(usernameString).getPassword())) {
+                    setCurrentUser(usernameString);
+                    cameFromLogin = true;
+                    switchToMainApp();
+
+                } else {
+                    password.setText("");
+                    Toast.makeText(MainActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
         }
+
+
     }
 
     /**
