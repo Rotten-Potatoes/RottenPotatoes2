@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.rahulraina.rottenpotatoes.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -515,7 +516,7 @@ public class MainActivity extends AppCompatActivity{
                 User newUser = new User(username, password,
                         firstname, lastname);
                 user_holder.put(username, newUser);
-                setCurrentUser(username);
+                currentUser = newUser;
                 registerUsername.setText("");
                 registerLastName.setText("");
                 registerFirstName.setText("");
@@ -569,16 +570,19 @@ public class MainActivity extends AppCompatActivity{
                 String urlstring = "http://rp-dev-env.szucsmaqnf.us-west-2.elasticbeanstalk.com/login.php?username="+usernameString + "&pass=" + passwordString;
                 String resp = sendGetRequest(urlstring);
                 try {
-                    jObject = new JSONObject(resp);
-                    String statusmessage = jObject.getString("status_message");
-                    if(statusmessage.equals("User found")) {
-                        setCurrentUser(usernameString);
-                        cameFromLogin = true;
-                        switchToMainApp();
-                    } else { //no user with this username and password
+                    if (resp == null) {
                         password.setText("");
                         Toast.makeText(MainActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
+                    } else {
+                        jObject = new JSONObject(resp);
+                        String statusmessage = jObject.getString("status_message");
+                        JSONArray profileHolder = jObject.getJSONArray("profile");
+                        currentUser = new User(usernameString, passwordString, profileHolder.getString(0), profileHolder.getString(1));
+                        cameFromLogin = true;
+                        switchToMainApp();
+//
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -737,10 +741,10 @@ public class MainActivity extends AppCompatActivity{
      * Helper method that allows us to set a currently logged in user
      * for information such as name, username, password, major, etc.
      *
-     * @param  username The key to find the current user in the HashMap
+     * @param  user The key to find the current user in the HashMap
      */
-    public void setCurrentUser(String username) {
-        currentUser = user_holder.get(username);
+    public void setCurrentUser(User user) {
+        currentUser = user;
     }
 
     /**
