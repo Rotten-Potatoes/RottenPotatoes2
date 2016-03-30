@@ -498,34 +498,48 @@ public class MainActivity extends AppCompatActivity{
      *
      * @param  v The view passed in that is used
      */
-    public void onClickRegister(View v) {
-        Set usernames = user_holder.keySet();
+    public void onClickRegister(View v) throws IOException {
+//        Set usernames = user_holder.keySet();
         String username = registerUsername.getText().toString();
         String password = registerPassword.getText().toString();
         String firstname = registerFirstName.getText().toString();
         String lastname = registerLastName.getText().toString();
 
-        if (username.equals("") || password.equals("")
-                || firstname.equals("") || lastname.equals("") || username.equals(Admin.getUsername())) {
+        String urlstring = "http://rp-dev-env.szucsmaqnf.us-west-2.elasticbeanstalk.com/register.php?username="+username + "&pass=" + password + "&firstname=" + firstname + "&lastname=" + lastname;
+        String resp = sendGetRequest(urlstring);
+        if(resp == null) {
             Toast.makeText(MainActivity.this, "One or more fields is missing or invalid", Toast.LENGTH_SHORT).show();
         } else {
-            boolean isUsernameTaken = usernames.contains(username);
-
-            if (!isUsernameTaken) {
-                //create user
-                User newUser = new User(username, password,
-                        firstname, lastname);
-                user_holder.put(username, newUser);
+                User newUser = new User(username, password, firstname, lastname);
                 currentUser = newUser;
                 registerUsername.setText("");
                 registerLastName.setText("");
                 registerFirstName.setText("");
                 registerPassword.setText("");
                 switchToMainApp();
-            } else {
-                Toast.makeText(MainActivity.this, "Username Taken", Toast.LENGTH_SHORT).show();
-            }
         }
+
+//        if (username.equals("") || password.equals("")
+//                || firstname.equals("") || lastname.equals("") || username.equals(Admin.getUsername())) {
+//            Toast.makeText(MainActivity.this, "One or more fields is missing or invalid", Toast.LENGTH_SHORT).show();
+//        } else {
+//            boolean isUsernameTaken = usernames.contains(username);
+//
+//            if (!isUsernameTaken) {
+//                //create user
+//                User newUser = new User(username, password,
+//                        firstname, lastname);
+//                user_holder.put(username, newUser);
+//                currentUser = newUser;
+//                registerUsername.setText("");
+//                registerLastName.setText("");
+//                registerFirstName.setText("");
+//                registerPassword.setText("");
+//                switchToMainApp();
+//            } else {
+//                Toast.makeText(MainActivity.this, "Username Taken", Toast.LENGTH_SHORT).show();
+//            }
+//        }
     }
 
     /**
