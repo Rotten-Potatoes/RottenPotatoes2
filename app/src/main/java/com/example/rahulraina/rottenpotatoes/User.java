@@ -8,8 +8,8 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    private String major = "";
-    private String interests = "";
+    private String major;
+    private String interests;
 
     private boolean isBanned;
     private boolean isLocked;
@@ -26,8 +26,21 @@ public class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        major = "";
+        interests = "";
         isBanned = false;
         isLocked = false;
+    }
+
+    public User(String username, String password, String firstName, String lastName, String major, boolean isBanned, boolean isLocked) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.isBanned = isBanned;
+        this.isLocked = isLocked;
+        this.interests = "";
+        this.major = major;
     }
 
     /**

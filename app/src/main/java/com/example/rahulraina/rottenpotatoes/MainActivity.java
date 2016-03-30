@@ -591,7 +591,15 @@ public class MainActivity extends AppCompatActivity{
                         jObject = new JSONObject(resp);
                         String statusmessage = jObject.getString("status_message");
                         JSONArray profileHolder = jObject.getJSONArray("profile");
-                        currentUser = new User(usernameString, passwordString, profileHolder.getString(0), profileHolder.getString(1));
+                        boolean isBanned = false;
+                        boolean isLocked = false;
+//                        if (profileHolder.getString(4).equals("true")) {
+//                            isBanned = true;
+//                        }
+//                        if (profileHolder.getString(5).equals("true")) {
+//                            isLocked = true;
+//                        }
+                        currentUser = new User(usernameString, passwordString, profileHolder.getString(0), profileHolder.getString(1), profileHolder.getString(3), isBanned, isLocked);
                         cameFromLogin = true;
                         switchToMainApp();
 //
@@ -707,6 +715,18 @@ public class MainActivity extends AppCompatActivity{
         String newMajor = editMajor.getText().toString();
         String newInterests = editInterests.getText().toString();
 
+        String[] splitMajor = newMajor.split(" ");
+        String finishedMajor = "";
+        for (int i = 0; i < splitMajor.length; i++) {
+            if (!splitMajor[i].equals("")) {
+                if (i == 0) {
+                    finishedMajor = finishedMajor + splitMajor[i];
+                } else {
+                    finishedMajor  = finishedMajor + "+" + splitMajor[i];
+                }
+            }
+        }
+
         if (!(newUsername.equals(currentUser.getUsername()))
                 || !(newPassword.equals(currentUser.getPassword()))
                 || !(newFirstName.equals(currentUser.getFirstName()))
@@ -722,12 +742,14 @@ public class MainActivity extends AppCompatActivity{
                 Toast.makeText(MainActivity.this, "Invalid field(s). Please check your input!", Toast.LENGTH_SHORT).show();
             } else {
 
-                String urlstring = "http://rp-dev-env.szucsmaqnf.us-west-2.elasticbeanstalk.com/update.php?username="+ newUsername + "&major=" + newMajor;
+
+                String urlstring = "http://rp-dev-env.szucsmaqnf.us-west-2.elasticbeanstalk.com/update.php?username="+ newUsername + "&major=" + finishedMajor;
                 String resp = sendGetRequest(urlstring);
                     if (resp == null) {
                         Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(MainActivity.this, "Your major has been updated to " + newMajor, Toast.LENGTH_SHORT).show();
+
                         currentUser.setMajor(newMajor);
                     }
 
