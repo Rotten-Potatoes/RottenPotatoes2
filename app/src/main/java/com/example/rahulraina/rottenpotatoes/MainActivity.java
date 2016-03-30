@@ -699,7 +699,7 @@ public class MainActivity extends AppCompatActivity{
      *
      * @param  v The view passed in that is used
      */
-    public void onClickUpdateProfile(View v) {
+    public void onClickUpdateProfile(View v) throws IOException {
         String newUsername = editUsername.getText().toString();
         String newPassword = editPassword.getText().toString();
         String newFirstName = editFirstName.getText().toString();
@@ -721,19 +721,29 @@ public class MainActivity extends AppCompatActivity{
 
                 Toast.makeText(MainActivity.this, "Invalid field(s). Please check your input!", Toast.LENGTH_SHORT).show();
             } else {
-                if (!(newUsername.equals(currentUser.getUsername()))) {
-                    if (user_holder.keySet().contains(newUsername)) {
-                        Toast.makeText(MainActivity.this, "Username taken", Toast.LENGTH_SHORT).show();
+
+                String urlstring = "http://rp-dev-env.szucsmaqnf.us-west-2.elasticbeanstalk.com/update.php?username="+ newUsername + "&major=" + newMajor;
+                String resp = sendGetRequest(urlstring);
+                    if (resp == null) {
+                        Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     } else {
-                        user_holder.remove(currentUser.getUsername());
-                        currentUser.updateUser(newUsername, newPassword, newFirstName,
-                                newLastName, newMajor, newInterests);
-                        user_holder.put(currentUser.getUsername(), currentUser);
+                        Toast.makeText(MainActivity.this, "Your major has been updated to " + newMajor, Toast.LENGTH_SHORT).show();
+                        currentUser.setMajor(newMajor);
                     }
-                } else {
-                    currentUser.updateUser(newUsername, newPassword, newFirstName,
-                            newLastName, newMajor, newInterests);
-                }
+
+//                if (!(newUsername.equals(currentUser.getUsername()))) {
+//                    if (user_holder.keySet().contains(newUsername)) {
+//                        Toast.makeText(MainActivity.this, "Username taken", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        user_holder.remove(currentUser.getUsername());
+//                        currentUser.updateUser(newUsername, newPassword, newFirstName,
+//                                newLastName, newMajor, newInterests);
+//                        user_holder.put(currentUser.getUsername(), currentUser);
+//                    }
+//                } else {
+//                    currentUser.updateUser(newUsername, newPassword, newFirstName,
+//                            newLastName, newMajor, newInterests);
+//                }
             }
         } else {
             switchToMainApp();

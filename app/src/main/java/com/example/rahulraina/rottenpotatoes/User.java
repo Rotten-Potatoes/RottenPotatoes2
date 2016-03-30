@@ -78,6 +78,10 @@ public class User {
         return major;
     }
 
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
     public void setBan(boolean ban) {
         isBanned = ban;
     }
