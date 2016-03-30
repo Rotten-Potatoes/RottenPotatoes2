@@ -551,7 +551,7 @@ public class MainActivity extends AppCompatActivity{
      *
      * @param  v The view passed in that is used
      */
-    public void onClickLogin(View v) {
+    public void onClickLogin(View v) throws IOException {
         username = (EditText) findViewById(R.id.editText);
         password = (EditText) findViewById(R.id.editText2);
 
@@ -566,16 +566,33 @@ public class MainActivity extends AppCompatActivity{
             if (usernameString.equals(Admin.getUsername()) && passwordString.equals(Admin.getPassword())) {
                 setUpAdminPage();
             } else {
-                if (user_holder.keySet().contains(usernameString)
-                        && passwordString.equals(user_holder.get(usernameString).getPassword())) {
-                    setCurrentUser(usernameString);
-                    cameFromLogin = true;
-                    switchToMainApp();
-
-                } else {
-                    password.setText("");
-                    Toast.makeText(MainActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
+                String urlstring = "http://rp-dev-env.szucsmaqnf.us-west-2.elasticbeanstalk.com/login.php?username="+usernameString + "&pass=" + passwordString;
+                String resp = sendGetRequest(urlstring);
+                try {
+                    jObject = new JSONObject(resp);
+                    String statusmessage = jObject.getString("status_message");
+                    if(statusmessage.equals("User found")) {
+                        setCurrentUser(usernameString);
+                        cameFromLogin = true;
+                        switchToMainApp();
+                    } else { //no user with this username and password
+                        password.setText("");
+                        Toast.makeText(MainActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
+//                if (user_holder.keySet().contains(usernameString)
+//                        && passwordString.equals(user_holder.get(usernameString).getPassword())) {
+//                    setCurrentUser(usernameString);
+//                    cameFromLogin = true;
+//                    switchToMainApp();
+//
+//                } else {
+//                    password.setText("");
+//                    Toast.makeText(MainActivity.this, "Wrong username or password", Toast.LENGTH_SHORT).show();
+//                }
             }
 
 
