@@ -19,25 +19,7 @@
         android:layout_alignParentEnd="true" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/lastNameProfileTag"
-        android:text="Last Name:"
-        android:textStyle="bold"
-        android:layout_below="@+id/userEditFirstName"
-        android:layout_alignRight="@+id/firstNameProfileTag"
-        android:layout_alignEnd="@+id/firstNameProfileTag" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/userEditLastName"
-        android:layout_alignTop="@+id/lastNameProfileTag"
-        android:layout_toRightOf="@+id/lastNameProfileTag"
-        android:layout_toEndOf="@+id/lastNameProfileTag" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -62,10 +44,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editUsernameTag"
-        android:text="Username:"
+        android:id="@+id/lastNameProfileTag"
+        android:text="Last Name:"
         android:textStyle="bold"
-        android:layout_below="@+id/userEditLastName"
+        android:layout_below="@+id/userEditFirstName"
         android:layout_alignRight="@+id/firstNameProfileTag"
         android:layout_alignEnd="@+id/firstNameProfileTag" />
 
@@ -74,10 +56,30 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/userEditUsername"
-        android:layout_alignTop="@+id/editUsernameTag"
-        android:layout_toRightOf="@+id/editUsernameTag"
-        android:layout_toEndOf="@+id/editUsernameTag" />
+        android:id="@+id/userEditLastName"
+        android:layout_alignTop="@+id/lastNameProfileTag"
+        android:layout_toRightOf="@+id/lastNameProfileTag"
+        android:layout_toEndOf="@+id/lastNameProfileTag" />
+
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/editUsernameTag"-->
+        <!--android:text="Username:"-->
+        <!--android:textStyle="bold"-->
+        <!--android:layout_below="@+id/userEditLastName"-->
+        <!--android:layout_alignRight="@+id/firstNameProfileTag"-->
+        <!--android:layout_alignEnd="@+id/firstNameProfileTag" />-->
+
+    <!--<EditText-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:inputType="textPersonName"-->
+        <!--android:ems="10"-->
+        <!--android:id="@+id/userEditUsername"-->
+        <!--android:layout_alignTop="@+id/editUsernameTag"-->
+        <!--android:layout_toRightOf="@+id/editUsernameTag"-->
+        <!--android:layout_toEndOf="@+id/editUsernameTag" />-->
 
     <TextView
         android:layout_width="wrap_content"
@@ -85,7 +87,7 @@
         android:id="@+id/editPasswordTag"
         android:text="Password:"
         android:textStyle="bold"
-        android:layout_below="@+id/userEditUsername"
+        android:layout_below="@+id/userEditLastName"
         android:layout_alignRight="@+id/firstNameProfileTag"
         android:layout_alignEnd="@+id/firstNameProfileTag" />
 

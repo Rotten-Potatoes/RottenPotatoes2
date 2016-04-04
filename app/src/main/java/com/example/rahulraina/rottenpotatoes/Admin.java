@@ -15,4 +15,9 @@ public class Admin {
         return password;
     }
 
+    public static boolean isAdmin(User user) {
+        return user.getUsername().equals(Admin.getUsername())
+                && user.getPassword().equals(Admin.getPassword());
+    }
+
 }

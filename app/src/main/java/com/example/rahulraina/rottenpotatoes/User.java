@@ -128,15 +128,31 @@ public class User {
      * @param major update the major
      * @param interests update the interests
      */
-    public void updateUser(String username, String password,
+    public void updateUser(String password,
                            String firstName, String lastName,
                            String major, String interests) {
-        this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.major = major;
         this.interests = interests;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof User)) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else {
+            User that = (User) (other);
+            return this.username == username
+                    && this.password == password
+                    && this.firstName == firstName
+                    && this.lastName == lastName
+                    && this.major == major
+                    && this.interests == interests;
+        }
     }
 
 }

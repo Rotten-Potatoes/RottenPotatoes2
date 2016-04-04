@@ -40,6 +40,7 @@ public class Movie {
      * @param rating the actual rating you want to give the movie
      */
     public void addRating(String major, float rating) {
+        RottenPotatoes.addToRated(this);
         if (ratings.keySet().contains(major)) {
             int num = numRatings.get(major);
             float currentRating = ratings.get(major);
