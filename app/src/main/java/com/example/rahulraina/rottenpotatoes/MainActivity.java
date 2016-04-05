@@ -156,9 +156,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-
-
-
     public void onClickSearchUserBase(View v) {
         SearchView adminSearchText = (SearchView) findViewById(R.id.adminSearchView);
         Button activationButton = (Button) findViewById(R.id.activatebutton);
@@ -479,14 +476,12 @@ public class MainActivity extends AppCompatActivity{
     public void onClickEditProfile(View v) {
         setContentView(R.layout.edit_profile);
 
-        //editUsername = (EditText) findViewById(R.id.userEditUsername);
         editPassword = (EditText) findViewById(R.id.userEditPassword);
         editFirstName = (EditText) findViewById(R.id.userEditFirstName);
         editLastName = (EditText) findViewById(R.id.userEditLastName);
         editMajor = (EditText) findViewById(R.id.userEditMajor);
         editInterests = (EditText) findViewById(R.id.userEditInterests);
 
-        //editUsername.setText(currentUser.getUsername());
         User currentUser = RottenPotatoes.getCurrentUser();
         editPassword.setText(currentUser.getPassword());
         editFirstName.setText(currentUser.getFirstName());
@@ -527,7 +522,6 @@ public class MainActivity extends AppCompatActivity{
      * @param  v The view passed in that is used
      */
     public void onClickUpdateProfile(View v) throws IOException {
-        //String newUsername = editUsername.getText().toString();
         String newPassword = editPassword.getText().toString();
         String newFirstName = editFirstName.getText().toString();
         String newLastName = editLastName.getText().toString();
@@ -585,11 +579,4 @@ public class MainActivity extends AppCompatActivity{
         profile_button = (TextView) findViewById(R.id.edit_profile);
         profile_button.setText(String.format("%s's Profile", RottenPotatoes.getCurrentUser().getFullName()));
     }
-
-
-
-
-
-
-
 }

@@ -1,7 +1,5 @@
 package com.example.rahulraina.rottenpotatoes;
 
-import android.view.View;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +74,7 @@ public abstract class RottenPotatoes {
     public static User registerUser(String username, String password, String firstname, String lastname) {
         /** Temporarily remove persistence code **/
         /*
-        String urlstring = "http://rp-dev-env.szucsmaqnf.us-west-2.elasticbeanstalk.com/register.php?username="+username + "&pass=" + password + "&firstname=" + firstname + "&lastname=" + lastname;
+        String urlstring = "http://dev-env.p3qg72k2sb.us-west-2.elasticbeanstalk.com//register.php?username="+username + "&pass=" + password + "&firstname=" + firstname + "&lastname=" + lastname;
         String resp = sendGetRequest(urlstring);
         */
         String resp = "";
@@ -103,7 +101,7 @@ public abstract class RottenPotatoes {
     }
 
     public static User onlineLogin(String username, String password) {
-        String urlstring = "http://rp-dev-env.szucsmaqnf.us-west-2.elasticbeanstalk.com/login.php?username="+username + "&pass=" + password;
+        String urlstring = "http://dev-env.p3qg72k2sb.us-west-2.elasticbeanstalk.com//login.php?username="+username + "&pass=" + password;
         String resp = sendGetRequest(urlstring);
         User user = null;
         try {
@@ -148,11 +146,13 @@ public abstract class RottenPotatoes {
 
                     /** Temporarily remove persistence code **/
                     /*
-                    String urlstring = "http://rp-dev-env.szucsmaqnf.us-west-2.elasticbeanstalk.com/update.php?username="
+                    String urlstring = "http://dev-env.p3qg72k2sb.us-west-2.elasticbeanstalk.com//update.php?username="
                             + currentUser.getUsername() + "&major=" + finishedMajor;
                     String resp = sendGetRequest(urlstring);
                     */
+
                     String resp = "";
+
                     if (resp == null) {
                         return 1; // Backend Error code
                     }
