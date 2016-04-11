@@ -9,14 +9,46 @@ import java.util.Map;
  */
 public class Movie {
 
+    /**
+     * Stores average ratings by major
+     */
     private Map<String, Float> ratings = new HashMap<>();
+
+    /**
+     * Stores number of ratings per major
+     */
     private Map<String, Integer> numRatings = new HashMap<>();
+
+    /**
+     * movie's title
+     */
     private String title;
+
+    /**
+     * movie's year
+     */
     private String year;
+
+    /**
+     * movie's MPAA rating
+     */
     private String rated;
+
+    /**
+     * Movie's release year
+     */
     private String released;
+
+    /**
+     * Movie's runtime
+     */
     private String runtime;
-    float averageRating = -1.0f;
+
+
+    /**
+     * Movie's avg rating overall
+     */
+    private float averageRating = -1.0f;
 
     /**
      * Constructor for holding a movie
@@ -26,12 +58,12 @@ public class Movie {
      * @param released what year the movie was released
      * @param runtime the runtime of the movie
      */
-    public Movie(String title, String year, String rated, String released, String runtime) {
-        this.title = title;
-        this.year = year;
-        this.rated = rated;
-        this.released = released;
-        this.runtime = runtime;
+    public Movie(String setTitle, String setYear, String setRated, String setReleased, String setRuntime) {
+        this.title = setTitle;
+        this.year = setYear;
+        this.rated = setRated;
+        this.released = setReleased;
+        this.runtime = setRuntime;
     }
 
     /**
@@ -42,9 +74,9 @@ public class Movie {
     public void addRating(String major, float rating) {
         RottenPotatoes.addToRated(this);
         if (ratings.keySet().contains(major)) {
-            int num = numRatings.get(major);
-            float currentRating = ratings.get(major);
-            float newRating = ((currentRating * num) + rating) / (num + 1);
+            final int num = numRatings.get(major);
+            final float currentRating = ratings.get(major);
+            final float newRating = ((currentRating * num) + rating) / (num + 1);
             ratings.put(major, newRating);
             numRatings.put(major, num + 1);
         } else {
@@ -54,7 +86,7 @@ public class Movie {
 
         int totalRatings = 0;
         float sumRatings = 0;
-        for (String eachMajor: ratings.keySet()) {
+        for (final String eachMajor: ratings.keySet()) {
             totalRatings += numRatings.get(eachMajor);
             sumRatings += numRatings.get(eachMajor) * ratings.get(eachMajor);
         }
@@ -135,13 +167,26 @@ public class Movie {
             return true;
         }
 
-        Movie that = (Movie) (other);
+        final Movie that = (Movie) (other);
 
         return title.equals(that.title)
                 && year.equals(that.year)
                 && rated.equals(that.rated)
                 && released.equals(that.released)
                 && runtime.equals(that.runtime);
+    }
+
+    public int hashCode() {
+        int result = 55;
+
+        result = 37 * result + title.hashCode();
+        result = 37 * result + year.hashCode();
+        result = 37 * result + rated.hashCode();
+        result = 37 * result + released.hashCode();
+        result = 37 * result + runtime.hashCode();
+
+        return result;
+
     }
 
     public boolean ratedByMajor(String major) {

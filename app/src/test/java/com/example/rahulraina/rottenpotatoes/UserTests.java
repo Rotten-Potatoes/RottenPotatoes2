@@ -7,11 +7,11 @@ import java.util.ArrayList;
 /**
  * Created by aniruddha on 4/6/16.
  */
-public class MovieTests {
+public class UserTests {
 
-    Movie one = new Movie("one", "", "", "", "");
-    Movie two = new Movie ("one", "", "", "", "");
-    Movie three = new Movie ("three", "", "", "", "");
+    User one = new User("one", "", "", "");
+    User two = new User("one", "", "", "");
+    User three = new User("three", "", "", "");
 
     @Test
     public void testEquals() {

@@ -21,26 +21,26 @@ public class User {
      * @param firstName firstname of user
      * @param lastName last name of user
      */
-    public User(String username, String password, String firstName, String lastName) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String setUsername, String setPassword, String setFirstName, String setLastName) {
+        this.username = setUsername;
+        this.password = setPassword;
+        this.firstName = setFirstName;
+        this.lastName = setLastName;
         major = "";
         interests = "";
         isBanned = false;
         isLocked = false;
     }
 
-    public User(String username, String password, String firstName, String lastName, String major, boolean isBanned, boolean isLocked) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.isBanned = isBanned;
-        this.isLocked = isLocked;
+    public User(String setUsername, String setPassword, String setFirstName, String setLastName, String setMajor, boolean setIsBanned, boolean setIsLocked) {
+        this.username = setUsername;
+        this.password = setPassword;
+        this.firstName = setFirstName;
+        this.lastName = setLastName;
+        this.isBanned = setIsBanned;
+        this.isLocked = setIsLocked;
         this.interests = "";
-        this.major = major;
+        this.major = setMajor;
     }
 
     /**
@@ -91,8 +91,8 @@ public class User {
         return major;
     }
 
-    public void setMajor(String major) {
-        this.major = major;
+    public void setMajor(String setMajor) {
+        this.major = setMajor;
     }
 
     public void setBan(boolean ban) {
@@ -121,21 +121,20 @@ public class User {
 
     /**
      * Updates the user when updated
-     * @param username update the username
      * @param password upate the passord
      * @param firstName update the firstname
      * @param lastName update the last name
      * @param major update the major
      * @param interests update the interests
      */
-    public void updateUser(String password,
-                           String firstName, String lastName,
-                           String major, String interests) {
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.major = major;
-        this.interests = interests;
+    public void updateUser(String setPassword,
+                           String setFirstName, String setLastName,
+                           String setMajor, String setInterests) {
+        this.password = setPassword;
+        this.firstName = setFirstName;
+        this.lastName = setLastName;
+        this.major = setMajor;
+        this.interests = setInterests;
     }
 
     @Override
@@ -145,14 +144,29 @@ public class User {
         } else if (this == other) {
             return true;
         } else {
-            User that = (User) (other);
-            return this.username == username
-                    && this.password == password
-                    && this.firstName == firstName
-                    && this.lastName == lastName
-                    && this.major == major
-                    && this.interests == interests;
+            final User that = (User) (other);
+            return that.username == username
+                    && that.password == password
+                    && that.firstName == firstName
+                    && that.lastName == lastName
+                    && that.major == major
+                    && that.interests == interests;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 55;
+
+        result = 37 * result + username.hashCode();
+        result = 37 * result + password.hashCode();
+        result = 37 * result + firstName.hashCode();
+        result = 37 * result + lastName.hashCode();
+        result = 37 * result + major.hashCode();
+        result = 37 * result + interests.hashCode();
+
+        return result;
+
     }
 
 }

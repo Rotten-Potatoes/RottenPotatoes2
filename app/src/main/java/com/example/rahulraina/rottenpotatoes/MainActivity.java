@@ -17,52 +17,87 @@ import android.widget.Toast;
 import com.example.rahulraina.rottenpotatoes.R;
 
 
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
-    // Variables for Login Screen
-    private EditText username;
-    private EditText password;
-    private TextView profile_button;
-
-    private ListView lv;
 
     // Variables for Registration Screen
+
+    /**
+     * EditText used in multiple places after Registration screen
+     */
     private EditText registerUsername;
+
+    /**
+     * EditText used in multiple places after Registration screen
+     */
     private EditText registerPassword;
+
+    /**
+     * EditText used in multiple places after Registration screen
+     */
     private EditText registerFirstName;
+
+    /**
+     * EditText used in multiple places after Registration screen
+     */
     private EditText registerLastName;
 
-    // Lets us know if we have to clear the Login screen password upon sign out
+    /**
+     * Lets us know if we have to clear the Login screen password upon sign out
+     */
     private boolean cameFromLogin = false;
 
-    // Variables for Edit Profile Screen
-    //private EditText editUsername;
+
+    /**
+     * EditText used in multiple places after Edit Profile screen
+     */
     private EditText editPassword;
+
+    /**
+     * EditText used in multiple places after Edit Profile screen
+     */
     private EditText editFirstName;
+
+    /**
+     * EditText used in multiple places after Edit Profile screen
+     */
     private EditText editLastName;
+
+    /**
+     * EditText used in multiple places after Edit Profile screen
+     */
     private EditText editMajor;
+
+    /**
+     * EditText used in multiple places after Edit Profile screen
+     */
     private EditText editInterests;
 
-    private TextView movieTitle;
-    private TextView movieYear;
-    private TextView movieRated;
-    private TextView movieUserRating;
 
+    /**
+     * TextView used in multiple places after Rating screen
+     */
     private TextView movieTitleRate;
+
+    /**
+     * TextView used in multiple places after Rating screen
+     */
     private TextView movieYearRate;
 
-    private View rateButton;
+
+    /**
+     * Rating value used in multiple places after Rating screen
+     */
     private Float movieRating;
 
-    private SearchView movietext;
-    User selectedUser;
+
+    /**
+     * User to be mannipulated by admin in multiple places after choosing screen
+     */
+    private User selectedUser;
 
 
 
@@ -77,14 +112,15 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        final int maxSDK  = 9;
+        if (android.os.Build.VERSION.SDK_INT > maxSDK) {
+            final StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
         movieRating = 0f;
 
         // Adding the hardcoded locked user
-        RottenPotatoes.add(RottenPotatoes.lockedUser);
+        RottenPotatoes.addLockedUser();
 
         Toast.makeText(MainActivity.this, "This application is currently stripped of persistence",
                 Toast.LENGTH_SHORT).show();
@@ -93,7 +129,7 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * takes you to the filter screen
-     * @param v
+     * @param v the View to use
      */
     public void onClickFilter(View v) {
         if (!RottenPotatoes.moviesHaveBeenRated()) {
@@ -104,15 +140,17 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * submits the filter the user would like to use
+     * @param v the View to use
+     */
     public void submitFilter(View v) {
-        List<Movie> movies_rated = RottenPotatoes.getRatedMovies();
-        List<Movie> sorted = new ArrayList<>(movies_rated);
+        final List<Movie> moviesRated = RottenPotatoes.getRatedMovies();
+        List<Movie> sorted = new ArrayList<>(moviesRated);
 
-        EditText filterMajor = (EditText) findViewById(R.id.filterMajor);
-        CheckBox filterCheckBox= (CheckBox) findViewById(R.id.checkBoxRating);
-        lv = (ListView) findViewById(R.id.movieslist);
-
-        Comparator<Movie> comparator = null;
+        final EditText filterMajor = (EditText) findViewById(R.id.filterMajor);
+        final CheckBox filterCheckBox= (CheckBox) findViewById(R.id.checkBoxRating);
+        final ListView lv = (ListView) findViewById(R.id.movieslist);
 
         sorted = RottenPotatoes.sortMovies(sorted, filterCheckBox.isChecked(),
                 filterMajor.getText().toString());
@@ -121,14 +159,14 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(MainActivity.this, "Please select a filter and try again", Toast.LENGTH_SHORT).show();
         }
 
-        List<String> a = new ArrayList<>();
-        for(Movie e: sorted) {
+        final List<String> a = new ArrayList<>();
+        for(final Movie e: sorted) {
             a.add(e.getTitle() + " - " + e.getAverageRating());
-            System.out.println(e.getTitle());
+//            System.out.println(e.getTitle());
         }
 
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
                 a);
@@ -136,36 +174,47 @@ public class MainActivity extends AppCompatActivity{
         lv.setAdapter(arrayAdapter);
     }
 
+    /**
+     * Sets up the Admin homepage
+     */
     public void setUpAdminPage() {
         setContentView(R.layout.admin_page);
-        ListView admin_user_list = (ListView) findViewById(R.id.adminUserList);
+        final ListView adminUserList = (ListView) findViewById(R.id.adminUserList);
 
-        List<String> adminUsernames = RottenPotatoes.getAdminUsernameList();
+        final List<String> adminUsernames = RottenPotatoes.getAdminUsernameList();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 adminUsernames);
 
-        admin_user_list.setAdapter(arrayAdapter);
+        adminUserList.setAdapter(arrayAdapter);
 
     }
 
+    /**
+     * Sets up the page for admin to ban users
+     * @param v the View to use
+     */
     public void toBanPage(View v) {
         setContentView(R.layout.ban_page);
     }
 
 
+    /**
+     * Coordinates the search of users by an admin
+     * @param v the view to be used
+     */
     public void onClickSearchUserBase(View v) {
-        SearchView adminSearchText = (SearchView) findViewById(R.id.adminSearchView);
-        Button activationButton = (Button) findViewById(R.id.activatebutton);
-        Button banningButton = (Button) findViewById(R.id.banbutton);
-        Button unlockingButton = (Button) findViewById(R.id.unlockButton);
+        final SearchView adminSearchText = (SearchView) findViewById(R.id.adminSearchView);
+        final Button activationButton = (Button) findViewById(R.id.activatebutton);
+        final  Button banningButton = (Button) findViewById(R.id.banbutton);
+        final Button unlockingButton = (Button) findViewById(R.id.unlockButton);
 
 
-        String search_username = adminSearchText.getQuery().toString();
-        TextView userToBan = (TextView) findViewById(R.id.nameofuser);
-        User user = RottenPotatoes.adminUserSearch(search_username);
+        final String searchUsername = adminSearchText.getQuery().toString();
+        final TextView userToBan = (TextView) findViewById(R.id.nameofuser);
+        final User user = RottenPotatoes.adminUserSearch(searchUsername);
         if (user == null) {
             Toast.makeText(MainActivity.this, "No such user found",
                     Toast.LENGTH_SHORT).show();
@@ -179,6 +228,10 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+    /**
+     * Un-bans a user upon the Admin's selection
+     * @param v the View to be used
+     */
     public void activateUser(View v) {
         if (selectedUser != null) {
             if (!selectedUser.getBan()) {
@@ -192,6 +245,10 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Helper method for the admin to ban a user
+     * @param v the Veiw to be used
+     */
     public void banUser(View v) {
         if (selectedUser != null) {
             if (selectedUser.getBan()) {
@@ -205,6 +262,10 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Helper method for the admin to unlock a locked user
+     * @param v the View to be used
+     */
     public void unlockUser(View v) {
         if (selectedUser != null) {
             if (!selectedUser.getIsLocked()) {
@@ -220,18 +281,18 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * search for the movie using the api for omdb and get the title, what its rated, and its year
-     * @param v
-     * @throws IOException
+     * @param v the View to be used
+     * @throws IOException if searchOMDB fails
      */
     public void onClickSearch(View v) throws IOException {
-        movietext = (SearchView) findViewById(R.id.searchView);
+        final SearchView movieText = (SearchView) findViewById(R.id.searchView);
 
-        String rawMovieTitle = movietext.getQuery().toString();
-        String[] splitMovieTitle = rawMovieTitle.trim().split(" ");
+        final String rawMovieTitle = movieText.getQuery().toString();
+        final String[] splitMovieTitle = rawMovieTitle.trim().split(" ");
         String finishedTitle = "";
 
         for (int i = 0; i < splitMovieTitle.length; i++) {
-            if (!splitMovieTitle[i].equals("")) {
+            if (!"".equals(splitMovieTitle[i])) {
                 if (i == 0) {
                     finishedTitle = finishedTitle + splitMovieTitle[i];
                 } else {
@@ -247,20 +308,20 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * On click of the submit rating, store the rating and average it
-     * @param v
+     * @param v the view to be used
      */
     public void submitRating(View v) {
-        RatingBar movieRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+        final RatingBar movieRatingBar = (RatingBar) findViewById(R.id.ratingBar);
         movieRating = movieRatingBar.getRating();
 
-        String major = RottenPotatoes.getCurrentUser().getMajor();
+        final String major = RottenPotatoes.getCurrentUser().getMajor();
 
-        if (major.equals("")) {
+        if ("".equals(major)) {
             Toast.makeText(MainActivity.this, "You must specify your major before you may rate movies. Edit your profile to get started!",
                     Toast.LENGTH_SHORT).show();
 
         } else {
-            Movie currentMovie = RottenPotatoes.getCurrentMovie();
+            final Movie currentMovie = RottenPotatoes.getCurrentMovie();
             currentMovie.addRating(major, movieRating);
             switchToMainApp();
             setMovieInformation(currentMovie);
@@ -269,14 +330,15 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * Sets the actual information on the screen when the data gets pulled from the api
+     * @param currentMovie the movie we are setting the info for
      */
     public void setMovieInformation(Movie currentMovie) {
 
-        movieTitle = (TextView) findViewById(R.id.titleofmovie);
-        movieYear = (TextView) findViewById(R.id.yearofmovie);
-        movieRated = (TextView) findViewById(R.id.ratingofmovie);
-        movieUserRating = (TextView) findViewById(R.id.userratingofmovie);
-        rateButton = findViewById(R.id.buttonrate);
+        final TextView movieTitle = (TextView) findViewById(R.id.titleofmovie);
+        final TextView movieYear = (TextView) findViewById(R.id.yearofmovie);
+        final TextView movieRated = (TextView) findViewById(R.id.ratingofmovie);
+        final TextView movieUserRating = (TextView) findViewById(R.id.userratingofmovie);
+        final View rateButton = findViewById(R.id.buttonrate);
 
 
         if (currentMovie == null) {
@@ -293,7 +355,7 @@ public class MainActivity extends AppCompatActivity{
             if (!RottenPotatoes.isRated(currentMovie)) {
                 movieUserRating.setText("No user rating");
             } else {
-                movieUserRating.setText("Rating: " + String.valueOf(currentMovie.getAverageRating()));
+                movieUserRating.setText("Rating: " + currentMovie.getAverageRating());
             }
             rateButton.setVisibility(View.VISIBLE);
         }
@@ -302,11 +364,11 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * when you click on the rate button, take you to the rating screen
-     * @param v
+     * @param v the View to be used
      */
     public void onClickRate(View v) {
-        if (!RottenPotatoes.getCurrentUser().getMajor().equals("")) {
-            Movie currentMovie = RottenPotatoes.getCurrentMovie();
+        if (!"".equals(RottenPotatoes.getCurrentUser().getMajor())) {
+            final Movie currentMovie = RottenPotatoes.getCurrentMovie();
             setContentView(R.layout.rate_movie);
             movieTitleRate = (TextView) findViewById(R.id.movietitle);
             movieTitleRate.setText(currentMovie.getTitle());
@@ -321,7 +383,7 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * sends you back to the main screen once you're on the rate screen
-     * @param v
+     * @param v the View to be used
      */
     public void onClickBackFromRate(View v) {
         switchToMainApp();
@@ -357,25 +419,25 @@ public class MainActivity extends AppCompatActivity{
      * that information.
      *
      * @param  v The view passed in that is used
+     * @throws IOException if the registration fails
      */
     public void onClickRegister(View v) throws IOException {
-//        Set usernames = user_holder.keySet();
-        String username = registerUsername.getText().toString();
-        String password = registerPassword.getText().toString();
-        String firstName = registerFirstName.getText().toString();
-        String lastName = registerLastName.getText().toString();
+        final String username = registerUsername.getText().toString();
+        final String password = registerPassword.getText().toString();
+        final String firstName = registerFirstName.getText().toString();
+        final String lastName = registerLastName.getText().toString();
 
-        User user = RottenPotatoes.registerUser(username, password, firstName, lastName);
+        final User user = RottenPotatoes.registerUser(username, password, firstName, lastName);
 
-        if(user == null) {
+        if (user == null) {
             Toast.makeText(MainActivity.this, "One or more fields is missing or invalid", Toast.LENGTH_SHORT).show();
         } else {
-                RottenPotatoes.switchUser(user);
-                registerUsername.setText("");
-                registerLastName.setText("");
-                registerFirstName.setText("");
-                registerPassword.setText("");
-                switchToMainApp();
+            RottenPotatoes.switchUser(user);
+            registerUsername.setText("");
+            registerLastName.setText("");
+            registerFirstName.setText("");
+            registerPassword.setText("");
+            switchToMainApp();
         }
     }
 
@@ -400,17 +462,18 @@ public class MainActivity extends AppCompatActivity{
      * to log user in or alert incorrect login
      *
      * @param  v The view passed in that is used
+     * @throws IOException if the online login fails
      */
     public void onClickLogin(View v) throws IOException {
-        username = (EditText) findViewById(R.id.editText);
-        password = (EditText) findViewById(R.id.editText2);
+        final EditText username = (EditText) findViewById(R.id.editText);
+        final EditText password = (EditText) findViewById(R.id.editText2);
 
-        String usernameString = username.getText().toString();
-        String passwordString = password.getText().toString();
+        final String usernameString = username.getText().toString();
+        final String passwordString = password.getText().toString();
 
-        User blankUser = new User("", "", "", "");
+        final User blankUser = new User("", "", "", "");
 
-        User user = RottenPotatoes.localLogin(usernameString, passwordString);
+        final User user = RottenPotatoes.localLogin(usernameString, passwordString);
         if (user != null) {
             if (user.getBan()) {
                 Toast.makeText(MainActivity.this, "This user is banned", Toast.LENGTH_SHORT).show();
@@ -462,6 +525,7 @@ public class MainActivity extends AppCompatActivity{
      * @param  v The view passed in that is used
      */
     public void onClickSignOut(View v) {
+        final EditText password = (EditText) findViewById(R.id.editText2);
         if (cameFromLogin) {
             password.setText("");
         }
@@ -482,13 +546,13 @@ public class MainActivity extends AppCompatActivity{
         editMajor = (EditText) findViewById(R.id.userEditMajor);
         editInterests = (EditText) findViewById(R.id.userEditInterests);
 
-        User currentUser = RottenPotatoes.getCurrentUser();
+        final User currentUser = RottenPotatoes.getCurrentUser();
         editPassword.setText(currentUser.getPassword());
         editFirstName.setText(currentUser.getFirstName());
         editLastName.setText(currentUser.getLastName());
         editMajor.setText(currentUser.getMajor());
 
-        if (!currentUser.getInterests().equals("")) {
+        if (!"".equals(currentUser.getInterests())) {
             editInterests.setText(currentUser.getInterests());
         }
     }
@@ -520,41 +584,31 @@ public class MainActivity extends AppCompatActivity{
      * and reassigns the user to the newly entered username
      *
      * @param  v The view passed in that is used
+     * @throws IOException if the online login fails
      */
     public void onClickUpdateProfile(View v) throws IOException {
-        String newPassword = editPassword.getText().toString();
-        String newFirstName = editFirstName.getText().toString();
-        String newLastName = editLastName.getText().toString();
-        String newMajor = editMajor.getText().toString();
-        String newInterests = editInterests.getText().toString();
+        final String newPassword = editPassword.getText().toString();
+        final String newFirstName = editFirstName.getText().toString();
+        final String newLastName = editLastName.getText().toString();
+        final String newMajor = editMajor.getText().toString();
+        final String newInterests = editInterests.getText().toString();
 
-        String[] splitMajor = newMajor.trim().split(" ");
-        String finishedMajor = "";
-        for (int i = 0; i < splitMajor.length; i++) {
-            if (!splitMajor[i].equals("")) {
-                if (i == 0) {
-                    finishedMajor = finishedMajor + splitMajor[i];
-                } else {
-                    finishedMajor  = finishedMajor + "+" + splitMajor[i];
-                }
-            }
-        }
+//        final String[] splitMajor = newMajor.trim().split(" ");
+//        String finishedMajor = "";
+//        for (int i = 0; i < splitMajor.length; i++) {
+//            if (!]"".equals(splitMajor[i)) {
+//                if (i == 0) {
+//                    finishedMajor = finishedMajor + splitMajor[i];
+//                } else {
+//                    finishedMajor  = finishedMajor + "+" + splitMajor[i];
+//                }
+//            }
+//        }
 
-        switch(RottenPotatoes.updateProfile(newPassword,
-                newFirstName, newLastName,
-                newMajor, newInterests,
-                finishedMajor)) {
-            case 0:
-                Toast.makeText(MainActivity.this, "Invalid field(s). Please check your input!", Toast.LENGTH_SHORT).show();
-                break;
-            case 1:
-                Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                break;
-            case 2:
-                Toast.makeText(MainActivity.this, "Your profile was updated successfully!", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-        }
+        final String display = RottenPotatoes.updateProfile(newPassword, newFirstName, newLastName,
+                newMajor, newInterests);
+        Toast.makeText(MainActivity.this, display, Toast.LENGTH_SHORT).show();
+
 
         switchToMainApp();
 
@@ -576,7 +630,7 @@ public class MainActivity extends AppCompatActivity{
      */
     public void switchToMainApp() {
         setContentView(R.layout.main_post_sign_in);
-        profile_button = (TextView) findViewById(R.id.edit_profile);
-        profile_button.setText(String.format("%s's Profile", RottenPotatoes.getCurrentUser().getFullName()));
+        final TextView profileButton = (TextView) findViewById(R.id.edit_profile);
+        profileButton.setText(String.format("%s's Profile", RottenPotatoes.getCurrentUser().getFullName()));
     }
 }
