@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@color/gray">
 
     <TextView
         android:layout_width="wrap_content"
@@ -51,23 +52,23 @@
 
 
 
-    <Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_marginBottom="20dp"
-    android:text="Back to Search"
-        android:onClick="onClickBackFromRate"
-        android:id="@+id/back"
-        android:layout_alignStart="@+id/filterMajor"
-        android:layout_alignEnd="@+id/filt" />
+    <!--<Button-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:text="Back to Search"-->
+        <!--android:onClick="onClickBackFromRate"-->
+        <!--android:id="@+id/back"-->
+        <!--android:layout_alignStart="@+id/filterMajor"-->
+        <!--android:layout_alignEnd="@+id/filt" />-->
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Filter"
         android:id="@+id/filt"
-        android:layout_above="@+id/back"
+        android:layout_below="@+id/filterMajor"
         android:layout_alignEnd="@+id/filterMajor"
         android:layout_alignStart="@+id/checkBoxRating"
         android:onClick="submitFilter"/>

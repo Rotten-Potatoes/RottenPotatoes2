@@ -5,13 +5,19 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -131,6 +137,14 @@ public class MainActivity extends AppCompatActivity{
     private CallbackManager callbackManager;
     private String full_name;
 
+    /**
+     * for popup screen for filter
+     */
+    private Button filterButton;
+    private PopupWindow popupWindow;
+    private LayoutInflater layoutInflater;
+    private RelativeLayout mainpostLayout;
+
 
 
 
@@ -206,6 +220,8 @@ public class MainActivity extends AppCompatActivity{
                 Log.v("LoginActivity", exception.getCause().toString());
             }
         });
+
+
 
 
         // Adding the hardcoded locked user
@@ -740,5 +756,26 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.main_post_sign_in);
         final TextView profileButton = (TextView) findViewById(R.id.edit_profile);
         profileButton.setText(String.format("%s's Profile", RottenPotatoes.getCurrentUser().getFullName()));
+        filterButton = (Button) findViewById(R.id.buttonfilter);
+        mainpostLayout = (RelativeLayout) findViewById(R.id.mainpostsignin);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.filter_search, null);
+
+                popupWindow = new PopupWindow(container, 750, 750, true);
+                popupWindow.showAtLocation(mainpostLayout, Gravity.NO_GRAVITY, 250, 500);
+
+                container.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        popupWindow.dismiss();
+                        return true;
+                    }
+                });
+            }
+        });
     }
 }
