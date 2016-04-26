@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/gray">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/gray"
+    tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -69,34 +71,28 @@
         android:text="Filter"
         android:id="@+id/filt"
         android:layout_below="@+id/filterMajor"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp"
         android:layout_alignEnd="@+id/filterMajor"
         android:layout_alignStart="@+id/checkBoxRating"
         android:onClick="submitFilter"/>
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginTop="20dp"
-        android:text="Recommended Movies:"
-        android:id="@+id/moviefound"
-        android:layout_below="@+id/filterMajor"
-        android:shadowColor="#efefef"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="2"
-        android:layout_centerHorizontal="true" />
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="?android:attr/textAppearanceLarge"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:text="Recommended Movies:"-->
+        <!--android:id="@+id/moviefound"-->
+        <!--android:layout_below="@+id/filterMajor"-->
+        <!--android:shadowColor="#efefef"-->
+        <!--android:shadowDx="2"-->
+        <!--android:shadowDy="2"-->
+        <!--android:shadowRadius="2"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/movieslist"
-        android:layout_marginBottom="20dp"
-        android:layout_below="@+id/moviefound"
-        android:layout_above="@+id/filt"
-        android:layout_alignStart="@+id/majorrating"
-        android:layout_alignEnd="@+id/moviefound" />
+
 
 
 </RelativeLayout>

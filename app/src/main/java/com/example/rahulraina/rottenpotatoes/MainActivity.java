@@ -146,6 +146,16 @@ public class MainActivity extends AppCompatActivity{
     private RelativeLayout mainpostLayout;
 
 
+    private TextView movieTitle;
+    private TextView movieYear;
+    private TextView movieRated;
+    private TextView movieUserRating;
+    private View rateButton;
+
+    private RatingBar ratingBar;
+
+    private ListView lv;
+
 
 
     /**
@@ -262,13 +272,15 @@ public class MainActivity extends AppCompatActivity{
      * submits the filter the user would like to use
      * @param v the View to use
      */
-    public void submitFilter(View v) {
+    public void submitFilter(View v, ViewGroup container) {
+
         final List<Movie> moviesRated = RottenPotatoes.getRatedMovies();
         List<Movie> sorted = new ArrayList<>(moviesRated);
 
-        final EditText filterMajor = (EditText) findViewById(R.id.filterMajor);
-        final CheckBox filterCheckBox= (CheckBox) findViewById(R.id.checkBoxRating);
-        final ListView lv = (ListView) findViewById(R.id.movieslist);
+
+        final EditText filterMajor = (EditText) container.findViewById(R.id.filterMajor);
+        final CheckBox filterCheckBox= (CheckBox) container.findViewById(R.id.checkBoxRating);
+        lv = (ListView) findViewById(R.id.movieslist);
 
         sorted = RottenPotatoes.sortMovies(sorted, filterCheckBox.isChecked(),
                 filterMajor.getText().toString());
@@ -289,7 +301,10 @@ public class MainActivity extends AppCompatActivity{
                 android.R.layout.simple_list_item_1,
                 a);
 
+        lv.setVisibility(View.VISIBLE);
         lv.setAdapter(arrayAdapter);
+        popupWindow.dismiss();
+
     }
 
     /**
@@ -403,6 +418,9 @@ public class MainActivity extends AppCompatActivity{
      * @throws IOException if searchOMDB fails
      */
     public void onClickSearch(View v) throws IOException {
+        if (lv != null) {
+            lv.setVisibility(View.GONE);
+        }
         final SearchView movieText = (SearchView) findViewById(R.id.searchView);
 
         final String rawMovieTitle = movieText.getQuery().toString();
@@ -453,11 +471,12 @@ public class MainActivity extends AppCompatActivity{
      */
     public void setMovieInformation(Movie currentMovie) {
 
-        final TextView movieTitle = (TextView) findViewById(R.id.titleofmovie);
-        final TextView movieYear = (TextView) findViewById(R.id.yearofmovie);
-        final TextView movieRated = (TextView) findViewById(R.id.ratingofmovie);
-        final TextView movieUserRating = (TextView) findViewById(R.id.userratingofmovie);
-        final View rateButton = findViewById(R.id.buttonrate);
+        movieTitle = (TextView) findViewById(R.id.titleofmovie);
+        movieYear = (TextView) findViewById(R.id.yearofmovie);
+        movieRated = (TextView) findViewById(R.id.ratingofmovie);
+        movieUserRating = (TextView) findViewById(R.id.userratingofmovie);
+
+        rateButton = findViewById(R.id.buttonrate);
 
 
         if (currentMovie == null) {
@@ -477,7 +496,7 @@ public class MainActivity extends AppCompatActivity{
                 movieUserRating.setText("Rating: " + currentMovie.getAverageRating());
             }
             rateButton.setVisibility(View.VISIBLE);
-            RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+            ratingBar = (RatingBar) findViewById(R.id.ratingBar);
             ratingBar.setVisibility(View.VISIBLE);
         }
     }
@@ -762,11 +781,27 @@ public class MainActivity extends AppCompatActivity{
 
             @Override
             public void onClick(View view) {
+                movieTitle.setText("");
+                movieYear.setText("");
+                movieRated.setText("");
+                movieUserRating.setText("");
+                rateButton.setVisibility(View.GONE);
+                ratingBar.setVisibility(View.GONE);
                 layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.filter_search, null);
+                final ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.filter_search, null);
 
                 popupWindow = new PopupWindow(container, 750, 750, true);
-                popupWindow.showAtLocation(mainpostLayout, Gravity.NO_GRAVITY, 250, 500);
+                popupWindow.showAtLocation(mainpostLayout, Gravity.CENTER, 0, 0);
+
+                Button applyFilter = (Button) container.findViewById(R.id.filt);
+                applyFilter.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View view) {
+                         submitFilter(view, container);
+                     }
+                });
+
+
 
                 container.setOnTouchListener(new View.OnTouchListener() {
                     @Override
