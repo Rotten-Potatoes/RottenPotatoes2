@@ -1,8 +1,10 @@
 package com.example.rahulraina.rottenpotatoes;
 
+import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,11 +16,27 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.rahulraina.rottenpotatoes.R;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 
+import com.example.rahulraina.rottenpotatoes.R;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
@@ -100,6 +118,15 @@ public class MainActivity extends AppCompatActivity{
     private User selectedUser;
 
 
+    /**
+     * The facebook login button and callbackManager
+     *
+     */
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
+    private String full_name;
+
+
 
 
     /**
@@ -111,6 +138,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main_screen);
         final int maxSDK  = 9;
         if (android.os.Build.VERSION.SDK_INT > maxSDK) {
@@ -119,6 +147,62 @@ public class MainActivity extends AppCompatActivity{
         }
         movieRating = 0f;
 
+
+        loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList(
+                "public_profile", "email", "user_birthday", "user_friends"));
+        callbackManager = CallbackManager.Factory.create();
+
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                setContentView(R.layout.main_post_sign_in);
+
+                // App code
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+
+                                Profile profile = Profile.getCurrentProfile();
+                                full_name = profile.getName();
+                                String user_id = profile.getId();
+
+                                User newUser = new FacebookUser(user_id, profile.getFirstName(), profile.getLastName());
+
+                                RottenPotatoes.add(newUser);
+                                RottenPotatoes.switchUser(newUser);
+                                final TextView profileButton = (TextView) findViewById(R.id.edit_profile);
+                                profileButton.setText(String.format("%s's Profile", RottenPotatoes.getCurrentUser().getFullName()));
+
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender,birthday");
+                request.setParameters(parameters);
+                request.executeAsync();
+
+
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+                Log.v("LoginActivity", "cancel");
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+                Log.v("LoginActivity", exception.getCause().toString());
+            }
+        });
+
+
         // Adding the hardcoded locked user
         RottenPotatoes.addLockedUser();
 
@@ -126,6 +210,19 @@ public class MainActivity extends AppCompatActivity{
                 Toast.LENGTH_SHORT).show();
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+//    public void loginfacebookuser(View v) {
+//        AccessToken fbaccessToken = AccessToken.getCurrentAccessToken();
+//        if (fbaccessToken != null) {
+//            setContentView(R.layout.main_post_sign_in);
+//        }
+//    }
 
     /**
      * takes you to the filter screen
@@ -301,6 +398,7 @@ public class MainActivity extends AppCompatActivity{
             }
         }
 
+
         setMovieInformation(RottenPotatoes.searchOMDB(finishedTitle));
 
     }
@@ -358,6 +456,8 @@ public class MainActivity extends AppCompatActivity{
                 movieUserRating.setText("Rating: " + currentMovie.getAverageRating());
             }
             rateButton.setVisibility(View.VISIBLE);
+            RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+            ratingBar.setVisibility(View.VISIBLE);
         }
     }
 

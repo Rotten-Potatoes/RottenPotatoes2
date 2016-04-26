@@ -43,6 +43,19 @@ public class User {
         this.major = setMajor;
     }
 
+    public User(String setUsername, String setFirstName, String setLastName) {
+        this.username = setUsername;
+        this.firstName = setFirstName;
+        this.lastName = setLastName;
+        major = "";
+        interests = "";
+        isBanned = false;
+        isLocked = false;
+    }
+
+    public User() {
+    }
+
     /**
      * gets the username
      * @return string ussername

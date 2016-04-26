@@ -178,7 +178,9 @@ public abstract class RottenPotatoes {
 
         if (nameChange || passwordChange || personalDataChange) {
 
-            if (("".equals(newPassword))
+            boolean isFacebookUser = currentUser instanceof FacebookUser;
+
+            if ((!isFacebookUser && "".equals(newPassword))
                     || ("".equals(newFirstName))
                     || ("".equals(newLastName))) {
 

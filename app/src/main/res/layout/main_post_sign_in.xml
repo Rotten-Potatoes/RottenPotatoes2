@@ -64,7 +64,7 @@
         android:layout_toStartOf="@+id/edit_profile" />
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Search"
         android:layout_weight="0.2"
@@ -78,16 +78,16 @@
         android:layout_height="wrap_content"
         android:text="Filter"
         android:id="@+id/buttonfilter"
-        android:layout_below="@+id/buttonsearch"
-        android:layout_alignRight="@+id/buttonsearch"
+        android:layout_toRightOf="@+id/buttonsearch"
         android:layout_marginLeft="2dp"
+        android:layout_alignTop="@+id/buttonsearch"
         android:onClick="onClickFilter"/>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_below="@+id/buttonsearch"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:layout_below="@+id/buttonsearch"    >
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -118,19 +118,28 @@
                 android:layout_toRightOf="@+id/ratingofmovie"
                 android:paddingLeft="10dp"
                 />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rate this movie"
-                android:layout_weight="0.2"
-                android:visibility="invisible"
-                android:id="@+id/buttonrate"
-                android:layout_below="@+id/userratingofmovie"
-                android:layout_alignLeft="@+id/userratingofmovie"
 
-                android:onClick = "onClickRate" />
         </RelativeLayout>
 
 
     </LinearLayout>
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        android:layout_below="@+id/staticenterrating"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rate this movie"
+        android:layout_weight="0.2"
+        android:visibility="invisible"
+        android:id="@+id/buttonrate"
+        android:layout_below="@+id/ratingBar"
+        android:layout_centerHorizontal="true"
+        android:onClick = "submitRating" />
 </RelativeLayout>
