@@ -41,4 +41,6 @@ public final class Admin {
                 && user.getPassword().equals(Admin.getPassword());
     }
 
+
+
 }

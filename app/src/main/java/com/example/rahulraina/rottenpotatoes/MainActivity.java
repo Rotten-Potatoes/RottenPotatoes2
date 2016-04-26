@@ -62,6 +62,11 @@ public class MainActivity extends AppCompatActivity{
      * EditText used in multiple places after Registration screen
      */
     private EditText registerLastName;
+    /**
+     * EditText used in multiple places after Registration screen
+     */
+    private EditText registerMajor;
+
 
     /**
      * Lets us know if we have to clear the Login screen password upon sign out
@@ -206,8 +211,8 @@ public class MainActivity extends AppCompatActivity{
         // Adding the hardcoded locked user
         RottenPotatoes.addLockedUser();
 
-        Toast.makeText(MainActivity.this, "This application is currently stripped of persistence",
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, "This application is currently stripped of persistence",
+//                Toast.LENGTH_SHORT).show();
 
     }
 
@@ -511,6 +516,7 @@ public class MainActivity extends AppCompatActivity{
         registerPassword = (EditText) findViewById(R.id.userRegisterPassword);
         registerFirstName = (EditText) findViewById(R.id.userRegisterFirstName);
         registerLastName = (EditText) findViewById(R.id.userRegisterLastName);
+        registerMajor = (EditText) findViewById(R.id.userRegisterMajor);
     }
 
     /**
@@ -526,8 +532,10 @@ public class MainActivity extends AppCompatActivity{
         final String password = registerPassword.getText().toString();
         final String firstName = registerFirstName.getText().toString();
         final String lastName = registerLastName.getText().toString();
+        final String major = registerMajor.getText().toString();
 
         final User user = RottenPotatoes.registerUser(username, password, firstName, lastName);
+        user.setMajor(major);
 
         if (user == null) {
             Toast.makeText(MainActivity.this, "One or more fields is missing or invalid", Toast.LENGTH_SHORT).show();
@@ -537,6 +545,7 @@ public class MainActivity extends AppCompatActivity{
             registerLastName.setText("");
             registerFirstName.setText("");
             registerPassword.setText("");
+            registerMajor.setText("");
             switchToMainApp();
         }
     }
@@ -552,6 +561,7 @@ public class MainActivity extends AppCompatActivity{
         registerLastName.setText("");
         registerFirstName.setText("");
         registerPassword.setText("");
+        registerMajor.setText("");
         setContentView(R.layout.activity_main_screen);
     }
 
@@ -573,7 +583,7 @@ public class MainActivity extends AppCompatActivity{
 
         final User blankUser = new User("", "", "", "");
 
-        final User user = RottenPotatoes.localLogin(usernameString, passwordString);
+        User user = RottenPotatoes.localLogin(usernameString, passwordString);
         if (user != null) {
             if (user.getBan()) {
                 Toast.makeText(MainActivity.this, "This user is banned", Toast.LENGTH_SHORT).show();
@@ -591,9 +601,9 @@ public class MainActivity extends AppCompatActivity{
             }
         } else {
             /** Temporarily remove persistence code **/
-            /*
+
             user = RottenPotatoes.onlineLogin(usernameString, passwordString);
-            */
+
             // We will be adding more checks for locks and bans once persistence for them has been added
             if (user == null) {
                 password.setText("");
@@ -625,11 +635,9 @@ public class MainActivity extends AppCompatActivity{
      * @param  v The view passed in that is used
      */
     public void onClickSignOut(View v) {
-        final EditText password = (EditText) findViewById(R.id.editText2);
-        if (cameFromLogin) {
-            password.setText("");
-        }
+//
         setContentView(R.layout.activity_main_screen);
+
     }
 
     /**

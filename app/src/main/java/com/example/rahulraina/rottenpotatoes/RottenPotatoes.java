@@ -98,11 +98,11 @@ public abstract class RottenPotatoes {
 
     public static User registerUser(String username, String password, String firstname, String lastname) {
         /** Temporarily remove persistence code **/
-        /*
+
         String urlstring = "http://dev-env.p3qg72k2sb.us-west-2.elasticbeanstalk.com//register.php?username="+username + "&pass=" + password + "&firstname=" + firstname + "&lastname=" + lastname;
         String resp = sendGetRequest(urlstring);
-        */
-        final String resp = "";
+
+//        final String resp = "";
         if(resp == null) {
             return null;
         } else {
@@ -189,13 +189,13 @@ public abstract class RottenPotatoes {
             } else {
 
                 /** Temporarily remove persistence code **/
-                /*
-                String urlstring = "http://dev-env.p3qg72k2sb.us-west-2.elasticbeanstalk.com//update.php?username="
-                        + currentUser.getUsername() + "&major=" + finishedMajor;
-                String resp = sendGetRequest(urlstring);
-                */
 
-                final String resp = "";
+                String urlstring = "http://dev-env.p3qg72k2sb.us-west-2.elasticbeanstalk.com//update.php?username="
+                        + currentUser.getUsername() + "&major=" + newMajor;
+                String resp = sendGetRequest(urlstring);
+
+
+//                final String resp = "";
 
                 if (resp == null) {
                     return "Something went wrong"; // Backend Error code

@@ -59,6 +59,16 @@
         android:layout_toRightOf="@+id/registerPassword"
         android:layout_toEndOf="@+id/registerPassword" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/userRegisterMajor"
+        android:layout_alignTop="@+id/registerMajor"
+        android:layout_toRightOf="@+id/registerMajor"
+        android:layout_toEndOf="@+id/registerMajor" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,7 +98,7 @@
         android:text="Register"
         android:id="@+id/RegisterButton"
         android:onClick="onClickRegister"
-        android:layout_below="@+id/userRegisterPassword"
+        android:layout_below="@+id/registerMajor"
         android:layout_alignRight="@+id/userRegisterPassword"
         android:layout_alignEnd="@+id/userRegisterPassword"
         android:layout_marginTop="48dp" />
@@ -100,6 +110,7 @@
         android:text="Cancel"
         android:id="@+id/RegisterCancelButton"
         android:onClick="onClickCancelRegister"
+        android:layout_below="@+id/registerMajor"
         android:layout_alignTop="@+id/RegisterButton"
         android:layout_alignLeft="@+id/userRegisterPassword"
         android:layout_alignStart="@+id/userRegisterPassword" />
@@ -122,6 +133,16 @@
         android:text="Password:"
         android:textStyle="bold"
         android:layout_below="@+id/userRegisterUsername"
+        android:layout_alignRight="@+id/editText4"
+        android:layout_alignEnd="@+id/editText4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/registerMajor"
+        android:text="Major:"
+        android:textStyle="bold"
+        android:layout_below="@+id/userRegisterPassword"
         android:layout_alignRight="@+id/editText4"
         android:layout_alignEnd="@+id/editText4" />
 
